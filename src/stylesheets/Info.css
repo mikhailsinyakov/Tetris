@@ -1,0 +1,44 @@
+.info {
+  background: blue;
+  flex: 0 0 auto;
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: 0.8rem;
+  padding: 1rem;
+  transition: font-size 2s, padding 2s, height 2s;
+}
+
+.info button {
+  font-size: 0.7rem;
+  font-family: 'Asap Condensed', sans-serif;
+  cursor: pointer;
+  margin: 1rem;
+}
+
+.info span {
+  margin: 1rem;
+}
+
+.info span b {
+  padding-right: 0.5rem;
+}
+
+@media (min-width: 450px) {
+  .info {
+    font-size: 1rem;
+    padding: 1.5rem;
+    height: 375px;
+  }
+  .info button {
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 600px) {
+  .info {
+    padding: 2rem;
+    height: 500px;
+  }
+}
