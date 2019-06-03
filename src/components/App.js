@@ -1,6 +1,6 @@
 import React from 'react';
-import Field from './Field';
-import Info from './Info';
+import Field from '../containers/Field';
+import Info from '../containers/Info';
 import '../stylesheets/App.css';
 
 const App = () => {

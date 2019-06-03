@@ -1,10 +1,11 @@
 .info {
-  background: blue;
+  background: #898996;
   flex: 0 0 auto;
   height: 250px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   font-size: 0.8rem;
   padding: 1rem;
   transition: font-size 2s, padding 2s, height 2s;
