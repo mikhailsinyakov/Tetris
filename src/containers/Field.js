@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import config from '../config';
 import '../stylesheets/Field.css';
 import store from '../store';
 
@@ -7,15 +8,7 @@ class Field extends Component {
     super(props);
     this.canvas = React.createRef();
     this.ctx = null;
-    this.cellsNumber = [30, 50];
-  }
-
-  setCanvasSize() {
-    const element = this.canvas.current;
-    const width = element.clientWidth;
-    const height = element.clientHeight;
-    element.width = width;
-    element.height = height;
+    this.timeout = null;
   }
 
   getCanvasContext() {
@@ -27,7 +20,8 @@ class Field extends Component {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  drawFilledCells(filledCells, cellSide) {
+  drawFilledCells(filledCells) {
+    const { cellSide } = config;
     filledCells.forEach(cell => {
       const x = cell.x * cellSide;
       const y = cell.y * cellSide;
@@ -36,7 +30,8 @@ class Field extends Component {
     });
   }
 
-  drawActiveShape(activeShape, cellSide) {
+  drawActiveShape(activeShape) {
+    const { cellSide } = config;
     this.ctx.fillStyle = activeShape.color;
     activeShape.cells.forEach(cell => {
       const x = cell.x * cellSide;
@@ -45,7 +40,8 @@ class Field extends Component {
     });
   }
 
-  drawCellBorders(cellSide) {
+  drawCellBorders() {
+    const { cellSide, fieldSize } = config;
     const { width, height } = this.canvas.current;
     this.ctx.strokeStyle = 'white';
     this.ctx.lineWidth = 0.5;
@@ -57,27 +53,26 @@ class Field extends Component {
       this.ctx.stroke();
     };
 
-    for (let i = 1; i < this.cellsNumber[0]; i++) {
+    for (let i = 1; i < fieldSize.width; i++) {
       const x = i * cellSide;
       drawLine({x, y: 0}, {x, y: height});
     }
 
-    for (let i = 1; i < this.cellsNumber[1]; i++) {
+    for (let i = 1; i < fieldSize.height; i++) {
       const y = i * cellSide;
       drawLine({x: 0, y}, {x: width, y});
     }
   }
 
   redrawCanvas() {
-    const { filledCells, cellSide, activeShape } = store.getState();
+    const { filledCells, activeShape } = store.getState();
     this.clearCanvas();
-    this.drawFilledCells(filledCells, cellSide);
-    this.drawActiveShape(activeShape, cellSide);
-    this.drawCellBorders(cellSide);
+    this.drawFilledCells(filledCells);
+    this.drawActiveShape(activeShape);
+    this.drawCellBorders();
   }
 
   componentDidMount() {
-    this.setCanvasSize();
     this.getCanvasContext();
   }
 
@@ -86,8 +81,15 @@ class Field extends Component {
   }
 
   render() {
+    const { width, height } = config.fieldSizePx;
     return (
-      <canvas ref={this.canvas} className="field"></canvas>
+      <canvas
+        ref={this.canvas}
+        className="field"
+        width={width}
+        height={height}
+      >
+      </canvas>
     );
   }
 }

@@ -1,4 +1,4 @@
-export default [
+const availableShapes = [
   {
     color: 'blue',
     rotations: [
@@ -149,3 +149,41 @@ export default [
     ]
   }
 ];
+
+export const getShape = (type, rotation) => {
+  if (type !== undefined && rotation !== undefined) {
+    const shape = availableShapes[type];
+    const color = shape.color;
+    const cells = shape.rotations[rotation];
+    return { type, rotation, color, cells };
+  } else {
+    const shapesCount = availableShapes.length;
+    const type = Math.floor(Math.random() * shapesCount);
+    const shape = availableShapes[type];
+    const color = shape.color;
+    const rotationsCount = shape.rotations.length;
+    const rotation = Math.floor(Math.random() * rotationsCount);
+    const cells = shape.rotations[rotation];
+    return { type, rotation, color, cells };
+  }
+
+};
+
+export const rotateShape = (type, rotation) => {
+  const shape = availableShapes[type];
+  const rotationCount = shape.rotations.length;
+  let newRotation = rotation + 1;
+  if (newRotation === rotationCount) newRotation = 0;
+  const { cells } = getShape(type, newRotation);
+  return {
+    rotation: newRotation,
+    cells
+  };
+};
+
+export const calcCellsDiff = (cells, changedCells) => {
+  return cells.map((cell, i) => ({
+    x: changedCells[i].x - cell.x,
+    y: changedCells[i].y - cell.y
+  }));
+};

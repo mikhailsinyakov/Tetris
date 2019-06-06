@@ -4,7 +4,8 @@ import activeShape from './activeShape';
 import nextShape from './nextShape';
 import isPlaying from './isPlaying';
 import info from './info';
-import cellSide from './cellSide';
+import isOver from './isOver';
+import speedUp from './speedUp';
 
 export default combineReducers({
   filledCells,
@@ -12,5 +13,6 @@ export default combineReducers({
   nextShape,
   isPlaying,
   info,
-  cellSide
+  isOver,
+  speedUp
 });

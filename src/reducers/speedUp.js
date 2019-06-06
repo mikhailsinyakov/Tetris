@@ -1,18 +1,16 @@
 import {
-  START_GAME,
-  PAUSE_GAME,
-  FINISH_GAME,
-  RESUME_GAME
+  REPLACE_SHAPE,
+  INCREASE_SPEED,
+  DECREASE_SPEED
 } from '../constants/actionTypes';
 
 export default (state = false, action) => {
   switch (action.type) {
-    case START_GAME:
-    case RESUME_GAME:
-      return true;
-    case PAUSE_GAME:
-    case FINISH_GAME:
+    case REPLACE_SHAPE:
+    case DECREASE_SPEED:
       return false;
+    case INCREASE_SPEED:
+      return true;
     default:
       return state;
   }

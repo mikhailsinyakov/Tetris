@@ -1,8 +1,8 @@
 .field {
   background: black;
   width: 150px;
-  flex: 0 0 auto;
   height: 250px;
+  flex: 0 0 auto;
   margin-right: 1rem;
   transition: width 2s, height 2s;
 }

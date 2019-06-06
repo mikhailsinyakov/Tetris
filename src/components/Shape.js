@@ -1,5 +1,5 @@
 import React from 'react';
-import availableShapes from '../availableShapes';
+import { getShape } from '../availableShapes';
 
 const Shape = ({nextShape}) => {
   if (!nextShape) {
@@ -8,10 +8,8 @@ const Shape = ({nextShape}) => {
     );
   }
 
-  const { type, rotation } = nextShape
-  const shape = availableShapes[type];
-  const color = shape.color;
-  const coords = shape.rotations[rotation];
+  const { type, rotation } = nextShape;
+  const { color, cells: coords } = getShape(type, rotation);
 
   const maxX = coords.reduce((max, val) => val.x > max ? val.x : max, 0);
   const realCoords = coords.map(coord => {
