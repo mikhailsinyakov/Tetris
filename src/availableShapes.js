@@ -169,9 +169,10 @@ export const getShape = (type, rotation) => {
 
 };
 
-export const rotateShape = (type, rotation) => {
-  const shape = availableShapes[type];
-  const rotationCount = shape.rotations.length;
+const rotateShape = shape => {
+  const { type, rotation } = shape;
+  const shapeObj = availableShapes[type];
+  const rotationCount = shapeObj.rotations.length;
   let newRotation = rotation + 1;
   if (newRotation === rotationCount) newRotation = 0;
   const { cells } = getShape(type, newRotation);
@@ -181,9 +182,29 @@ export const rotateShape = (type, rotation) => {
   };
 };
 
-export const calcCellsDiff = (cells, changedCells) => {
+const calcCellsDiff = (cells, changedCells) => {
   return cells.map((cell, i) => ({
     x: changedCells[i].x - cell.x,
     y: changedCells[i].y - cell.y
   }));
+};
+
+export const getShapeAfterRotating = shape => {
+  const { type, rotation, cells } = shape;
+  const { cells: initCells } = getShape(type, rotation);
+  const {
+    cells: changedCells,
+    rotation: newRotation
+  } = rotateShape(shape);
+  const diffs = calcCellsDiff(initCells, changedCells);
+  const newCells = cells.map((cell, i) => ({
+    x: cell.x + diffs[i].x,
+    y: cell.y + diffs[i].y
+  }));
+
+  return {
+    ...shape,
+    rotation: newRotation,
+    cells: newCells
+  };
 };

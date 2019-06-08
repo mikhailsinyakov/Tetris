@@ -6,7 +6,7 @@ import {
   REPLACE_SHAPE
 } from '../constants/actionTypes';
 import config from '../config';
-import { getShape, rotateShape, calcCellsDiff } from '../availableShapes';
+import { getShapeAfterRotating } from '../availableShapes';
 
 export default (state = null, action) => {
   switch (action.type) {
@@ -19,19 +19,18 @@ export default (state = null, action) => {
           height: cell.y > acc.height ? cell.y : acc.height
         }),
         {width: 0, height: 0});
-      const shift = {
-        x: config.fieldSize.width / 2 - Math.floor(shapeSize.width / 2),
-        y: -shapeSize.height
-      };
+      const shiftX = Math.floor(config.fieldSize.width / 2) -
+                    Math.floor(shapeSize.width / 2);
+      const shiftY = -shapeSize.height;
       return {
         ...activeShape,
         cells: cells.map(cell => ({
-          x: cell.x + shift.x,
-          y: cell.y + shift.y
+          x: cell.x + shiftX,
+          y: cell.y + shiftY
         }))
       };
     }
-    case MAKE_MOVE: {
+    case MAKE_MOVE:
       return {
         ...state,
         cells: state.cells.map(cell => ({
@@ -39,26 +38,9 @@ export default (state = null, action) => {
           y: cell.y + 1
         }))
       };
-    }
-    case ROTATE_SHAPE: {
-      const { type, rotation, cells } = state;
-      const { cells: prevCells } = getShape(type, rotation);
-      const {
-        rotation: newRotation,
-        cells: changedCells
-      } = rotateShape(type, rotation);
-      const diffs = calcCellsDiff(prevCells, changedCells);
-      console.log(diffs)
-      return {
-        ...state,
-        rotation: newRotation,
-        cells: cells.map((cell, i) => ({
-          x: cell.x + diffs[i].x,
-          y: cell.y + diffs[i].y
-        }))
-      };
-    }
-    case MOVE_SHAPE:
+    case ROTATE_SHAPE:
+      return getShapeAfterRotating(state);
+    case MOVE_SHAPE: {
       const { direction } = action.payload;
       const shift = direction === 'left' ? -1 : 1;
       return {
@@ -68,6 +50,7 @@ export default (state = null, action) => {
           x: cell.x + shift
         }))
       };
+    }
     default:
       return state;
   }

@@ -1,11 +1,11 @@
 export default {
   fieldSize: {
-    width: 30,
-    height: 50
+    width: 15,
+    height: 25
   },
   fieldSizePx: {
     width: 300,
     height: 500
   },
-  cellSide: 10
+  cellSide: 20
 };

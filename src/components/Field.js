@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import config from '../config';
 import '../stylesheets/Field.css';
-import store from '../store';
 
 class Field extends Component {
   constructor(props) {
     super(props);
     this.canvas = React.createRef();
     this.ctx = null;
-    this.timeout = null;
   }
 
   getCanvasContext() {
@@ -65,7 +63,7 @@ class Field extends Component {
   }
 
   redrawCanvas() {
-    const { filledCells, activeShape } = store.getState();
+    const { filledCells, activeShape } = this.props.state;
     this.clearCanvas();
     this.drawFilledCells(filledCells);
     this.drawActiveShape(activeShape);
@@ -74,6 +72,7 @@ class Field extends Component {
 
   componentDidMount() {
     this.getCanvasContext();
+    this.drawCellBorders();
   }
 
   componentDidUpdate() {

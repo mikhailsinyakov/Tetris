@@ -1,4 +1,4 @@
-import { MAKE_MOVE, CLEAR_LINES } from '../constants/actionTypes';
+import { MAKE_MOVE, CLEAR_LINE } from '../constants/actionTypes';
 
 const initialState = {
   score: 0,
@@ -13,12 +13,13 @@ export default (state = initialState, action) => {
         ...state,
         score: state.score + state.level
       };
-    case CLEAR_LINES:
-      const linesCount = action.payload.lines.length;
+    case CLEAR_LINE:
+      const maxLevel = 9;
+      const level = Math.floor((state.lines + 1) / 5) + 1;
       return {
-        score: state.score + state.level * 100 * linesCount,
-        lines: state.lines + linesCount,
-        level: Math.floor((state.lines + linesCount) / 10) + 1
+        score: state.score + state.level * 1000,
+        lines: state.lines + 1,
+        level: level > maxLevel ? maxLevel : level
       };
     default:
       return state;

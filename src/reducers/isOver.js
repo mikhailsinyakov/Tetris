@@ -1,6 +1,6 @@
 import { START_GAME, FINISH_GAME } from '../constants/actionTypes';
 
-export default (state = false, action) => {
+export default (state = true, action) => {
   switch (action.type) {
     case START_GAME:
       return false;

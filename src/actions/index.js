@@ -8,7 +8,7 @@ import {
   MOVE_SHAPE,
   INCREASE_SPEED,
   DECREASE_SPEED,
-  CLEAR_LINES,
+  CLEAR_LINE,
   REPLACE_SHAPE
 } from '../constants/actionTypes';
 import { getShape } from '../availableShapes';
@@ -60,10 +60,10 @@ export const decreaseSpeed = () => ({
   type: DECREASE_SPEED
 });
 
-export const clearLines = lines => ({
-  type: CLEAR_LINES,
+export const clearLine = number => ({
+  type: CLEAR_LINE,
   payload: {
-    lines
+    number
   }
 });
 

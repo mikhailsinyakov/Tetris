@@ -8,5 +8,5 @@ export const ROTATE_SHAPE = 'ROTATE_SHAPE';
 export const MOVE_SHAPE = 'MOVE_SHAPE';
 export const INCREASE_SPEED = 'INCREASE_SPEED';
 export const DECREASE_SPEED = 'DECREASE_SPEED';
-export const CLEAR_LINES = 'CLEAR_LINES';
+export const CLEAR_LINE = 'CLEAR_LINE';
 export const REPLACE_SHAPE = 'REPLACE_SHAPE';
