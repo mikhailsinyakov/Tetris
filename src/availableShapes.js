@@ -1,6 +1,6 @@
 const availableShapes = [
   {
-    color: 'blue',
+    color: '#00f0f0',
     rotations: [
       [
         { x: 0, y: 0 },
@@ -17,7 +17,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'pink',
+    color: '#f0f000',
     rotations: [
       [
         { x: 0, y: 0 },
@@ -28,7 +28,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'yellow',
+    color: '#a000f0',
     rotations: [
       [
         { x: 1, y: 0 },
@@ -57,7 +57,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'red',
+    color: '#0000f0',
     rotations: [
       [
         { x: 0, y: 0 },
@@ -86,7 +86,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'silver',
+    color: '#00f000',
     rotations: [
       [
         { x: 1, y: 0 },
@@ -103,7 +103,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'gray',
+    color: '#f0a000',
     rotations: [
       [
         { x: 2, y: 0 },
@@ -132,7 +132,7 @@ const availableShapes = [
     ]
   },
   {
-    color: 'green',
+    color: '#f00000',
     rotations: [
       [
         { x: 0, y: 0 },

@@ -18,61 +18,91 @@ class Field extends Component {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  drawFilledCells(filledCells) {
+  drawCell(cell, color) {
     const { cellSide } = config;
-    filledCells.forEach(cell => {
-      const x = cell.x * cellSide;
-      const y = cell.y * cellSide;
-      this.ctx.fillStyle = cell.color;
-      this.ctx.fillRect(x, y, cellSide, cellSide);
-    });
-  }
+    const borderSide = cellSide / 8;
+    const innerCellSide = cellSide - 2 * borderSide;
+    const x = cell.x * cellSide;
+    const y = cell.y * cellSide;
 
-  drawActiveShape(activeShape) {
-    const { cellSide } = config;
-    this.ctx.fillStyle = activeShape.color;
-    activeShape.cells.forEach(cell => {
-      const x = cell.x * cellSide;
-      const y = cell.y * cellSide;
-      this.ctx.fillRect(x, y, cellSide, cellSide);
-    });
-  }
+    // Draw main part of the cell
+    this.ctx.fillStyle = color ? color : cell.color;
+    this.ctx.fillRect(
+      x + borderSide,
+      y + borderSide,
+      innerCellSide,
+      innerCellSide
+    );
 
-  drawCellBorders() {
-    const { cellSide, fieldSize } = config;
-    const { width, height } = this.canvas.current;
-    this.ctx.strokeStyle = 'white';
-    this.ctx.lineWidth = 0.5;
-
-    const drawLine = (from, to) => {
+    const drawBorder = ({coords, color}) => {
+      this.ctx.fillStyle = color;
       this.ctx.beginPath();
-      this.ctx.moveTo(from.x, from.y);
-      this.ctx.lineTo(to.x, to.y);
-      this.ctx.stroke();
+      this.ctx.moveTo(coords[0].x, coords[0].y);
+      this.ctx.lineTo(coords[1].x, coords[1].y);
+      this.ctx.lineTo(coords[2].x, coords[2].y);
+      this.ctx.lineTo(coords[3].x, coords[3].y);
+      this.ctx.lineTo(coords[0].x, coords[0].y);
+      this.ctx.fill();
     };
 
-    for (let i = 1; i < fieldSize.width; i++) {
-      const x = i * cellSide;
-      drawLine({x, y: 0}, {x, y: height});
-    }
+    const topBorder = {
+      color: '#b3b3fb',
+      coords: [
+        { x, y },
+        { x: x + borderSide, y: y + borderSide },
+        { x: x + cellSide - borderSide, y: y + borderSide },
+        { x: x + cellSide, y }
+      ]
+    };
+    const leftBorder = {
+      color: '#0000d8',
+      coords: [
+        { x, y },
+        { x: x + borderSide, y: y + borderSide},
+        { x: x + borderSide, y: y + cellSide - borderSide },
+        { x, y: y + cellSide }
+      ]
+    };
+    const rightBorder = {
+      color: '#0000d8',
+      coords: [
+        { x: x + cellSide - borderSide, y: y + borderSide },
+        { x: x + cellSide, y },
+        { x: x + cellSide, y: y + cellSide },
+        { x: x + cellSide - borderSide, y: y + cellSide - borderSide }
+      ]
+    };
+    const bottomBorder = {
+      color: '#000078',
+      coords: [
+        { x: x + borderSide, y: y + cellSide - borderSide },
+        { x, y: y + cellSide },
+        { x: x + cellSide, y: y + cellSide },
+        { x: x + cellSide - borderSide, y: y + cellSide - borderSide }
+      ]
+    };
 
-    for (let i = 1; i < fieldSize.height; i++) {
-      const y = i * cellSide;
-      drawLine({x: 0, y}, {x: width, y});
-    }
+    // Draw borders
+    drawBorder(topBorder);
+    drawBorder(leftBorder);
+    drawBorder(rightBorder);
+    drawBorder(bottomBorder);
+
+  }
+
+  drawCells(cells, color) {
+    cells.forEach(cell => this.drawCell(cell, color));
   }
 
   redrawCanvas() {
     const { filledCells, activeShape } = this.props.state;
     this.clearCanvas();
-    this.drawFilledCells(filledCells);
-    this.drawActiveShape(activeShape);
-    this.drawCellBorders();
+    this.drawCells(filledCells);
+    this.drawCells(activeShape.cells, activeShape.color);
   }
 
   componentDidMount() {
     this.getCanvasContext();
-    this.drawCellBorders();
   }
 
   componentDidUpdate() {
