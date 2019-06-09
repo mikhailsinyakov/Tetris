@@ -21,7 +21,7 @@ const Shape = ({nextShape}) => {
   });
 
   return (
-    <svg width={50} height={50}>
+    <svg width={35} height={35} viewBox="0 0 50 50">
       {
         realCoords.map((coord, i) =>
           <rect

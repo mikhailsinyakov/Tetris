@@ -14,7 +14,9 @@ const Info = () => {
 
   return (
     <div className="info">
-      <button onClick={togglePlaying}>{isPlaying ? 'PAUSE' : 'PLAY'}</button>
+      <button id="toggle-playing" onClick={togglePlaying} >
+        {isPlaying ? 'PAUSE' : 'PLAY'}
+      </button>
       <span><b>NEXT SHAPE:</b></span>
       <Shape nextShape={nextShape} />
       <span><b>SCORE:</b>{Math.floor(info.score)}</span>

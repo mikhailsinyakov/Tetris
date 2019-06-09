@@ -47,8 +47,8 @@ class App extends Component {
   }
 
   addKeyListeners() {
-
     document.body.addEventListener('keydown', e => {
+      e.preventDefault();
       const { isPlaying, isOver, speedUp } = store.getState();
       if (!isPlaying) {
         if (e.code === 'Space') {
@@ -82,6 +82,61 @@ class App extends Component {
       const { isPlaying } = store.getState();
       if (isPlaying && e.code === 'ArrowDown') store.dispatch(decreaseSpeed());
     });
+  }
+
+  addTouchListeners() {
+    let lastCoords = null;
+    let moving = false;
+
+    const handleTouchEvent = e => {
+      const { isPlaying, speedUp } = store.getState();
+      if (!isPlaying || e.path[0].id === 'toggle-playing') return;
+      e.preventDefault();
+
+      const { clientX, clientY } = e.changedTouches[0];
+      if (e.type === 'touchstart') {
+        lastCoords = { clientX, clientY };
+      } else if (e.type === 'touchmove') {
+        if (!moving) moving = true;
+        const shiftX = lastCoords.clientX - clientX;
+        const shiftY = lastCoords.clientY - clientY;
+        const direction = (() => {
+          if (Math.abs(shiftX) > Math.abs(shiftY) * 3) {
+            return shiftX > 0 ? 'left' : 'right';
+          } else if (Math.abs(shiftY) > Math.abs(shiftX) * 3) {
+            return shiftY > 0 ? 'top' : 'bottom';
+          }
+        })();
+
+        if (direction && (Math.abs(shiftX) > 15 || Math.abs(shiftY) > 15)) {
+          lastCoords = { clientX, clientY };
+        }
+        if (direction === 'left' && Math.abs(shiftX) > 15) {
+          if (this.canShapeMoveTo('left')) store.dispatch(moveShape('left'));
+        } else if (direction === 'right' && Math.abs(shiftX) > 15) {
+          if (this.canShapeMoveTo('right')) store.dispatch(moveShape('right'));
+        } else if (direction === 'bottom' && Math.abs(shiftY) > 15) {
+          if (!speedUp) store.dispatch(increaseSpeed());
+        } else if (direction === 'top' && Math.abs(shiftY) > 15) {
+          if (speedUp) store.dispatch(decreaseSpeed());
+        }
+      } else if (e.type === 'touchend') {
+        if (!moving && this.canShapeRotate()) {
+          store.dispatch(rotateShape());
+        }
+        lastCoords = null;
+        moving = false;
+      }
+    };
+
+    document.body.addEventListener('touchstart', handleTouchEvent, {passive: false});
+    document.body.addEventListener('touchmove', handleTouchEvent, {passive: false});
+    document.body.addEventListener('touchend', handleTouchEvent, {passive: false});
+  }
+
+  addListeners() {
+    this.addKeyListeners();
+    this.addTouchListeners();
   }
 
   isLegalShapePosition(cells) {
@@ -172,12 +227,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.addKeyListeners();
+    this.addListeners();
   }
 
   componentDidUpdate() {
     this.updateTimers();
   }
+
 
   render() {
     return (
