@@ -4,10 +4,10 @@
   "private": true,
   "homepage": "https://tetris5.herokuapp.com/",
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "react-scripts": "3.0.1",
-    "redux": "^4.0.1"
+    "redux": "^4.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

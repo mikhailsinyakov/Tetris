@@ -90,7 +90,7 @@ class App extends Component {
 
     const handleTouchEvent = e => {
       const { isPlaying, speedUp } = store.getState();
-      if (!isPlaying || e.path[0].id === 'toggle-playing') return;
+      if (!isPlaying || e.changedTouches[0].target.id === 'toggle-playing') return;
       e.preventDefault();
 
       const { clientX, clientY } = e.changedTouches[0];
