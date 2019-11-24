@@ -53,7 +53,7 @@ class App extends Component {
       if (!isPlaying) {
         if (e.code === 'Space') {
           if (isOver) store.dispatch(startGame());
-          else  store.dispatch(resumeGame());
+          else store.dispatch(resumeGame());
         }
       } else {
         switch (e.code) {
@@ -85,8 +85,7 @@ class App extends Component {
   }
 
   addTouchListeners() {
-    let lastCoords = null;
-    let moving = false;
+    let lastCoords = null, startCoords = null, moving = false, nextShape = null;
 
     const handleTouchEvent = e => {
       const { isPlaying, speedUp } = store.getState();
@@ -95,17 +94,22 @@ class App extends Component {
 
       const { clientX, clientY } = e.changedTouches[0];
       if (e.type === 'touchstart') {
-        lastCoords = { clientX, clientY };
+        lastCoords = startCoords = { clientX, clientY };
+        nextShape = store.getState().nextShape;
       } else if (e.type === 'touchmove') {
+        const wasShapeChanged = nextShape !== store.getState().nextShape;
+        if (wasShapeChanged) return;
         if (!moving) moving = true;
         const shiftX = lastCoords.clientX - clientX;
         const shiftY = lastCoords.clientY - clientY;
         const direction = (() => {
           if (Math.abs(shiftX) > Math.abs(shiftY) * 3) {
             return shiftX > 0 ? 'left' : 'right';
-          } else if (Math.abs(shiftY) > Math.abs(shiftX) * 3) {
+          } 
+          if (Math.abs(shiftY) > Math.abs(shiftX) * 3) {
             return shiftY > 0 ? 'top' : 'bottom';
           }
+          return null;
         })();
 
         if (direction && (Math.abs(shiftX) > 15 || Math.abs(shiftY) > 15)) {
@@ -117,15 +121,17 @@ class App extends Component {
           if (this.canShapeMoveTo('right')) store.dispatch(moveShape('right'));
         } else if (direction === 'bottom' && Math.abs(shiftY) > 15) {
           if (!speedUp) store.dispatch(increaseSpeed());
-        } else if (direction === 'top' && Math.abs(shiftY) > 15) {
-          if (speedUp) store.dispatch(decreaseSpeed());
         }
       } else if (e.type === 'touchend') {
         if (!moving && this.canShapeRotate()) {
           store.dispatch(rotateShape());
+        } else if (speedUp) {
+          const shiftY = startCoords.clientY - clientY;
+          if (Math.abs(shiftY) < 150) store.dispatch(decreaseSpeed());
         }
-        lastCoords = null;
+        lastCoords = startCoords = null;
         moving = false;
+        nextShape = null;
       }
     };
 
