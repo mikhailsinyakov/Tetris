@@ -9,7 +9,8 @@ import {
   INCREASE_SPEED,
   DECREASE_SPEED,
   CLEAR_LINE,
-  REPLACE_SHAPE
+  REPLACE_SHAPE,
+  UPDATE_SHAPE_SHADOW
 } from '../constants/actionTypes';
 import { getShape } from '../availableShapes';
 
@@ -80,6 +81,16 @@ export const replaceShape = (activeShape, nextShape) => {
         type: newNextShape.type,
         rotation: newNextShape.rotation
       }
+    }
+  };
+};
+
+export const updateShapeShadow = (activeShape, filledCells) => {
+  return {
+    type: UPDATE_SHAPE_SHADOW,
+    payload: {
+      activeShape,
+      filledCells
     }
   };
 };

@@ -18,15 +18,15 @@ class Field extends Component {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  drawCell(cell, color) {
+  drawCell({type, x, y, color}) {
     const { cellSide } = config;
     const borderSide = cellSide / 8;
     const innerCellSide = cellSide - 2 * borderSide;
-    const x = cell.x * cellSide;
-    const y = cell.y * cellSide;
+    x = x * cellSide;
+    y = y * cellSide;
 
     // Draw main part of the cell
-    this.ctx.fillStyle = color ? color : cell.color;
+    this.ctx.fillStyle = color;
     this.ctx.fillRect(
       x + borderSide,
       y + borderSide,
@@ -34,47 +34,42 @@ class Field extends Component {
       innerCellSide
     );
 
-    const drawBorder = ({coords, color}) => {
-      this.ctx.fillStyle = color;
-      this.ctx.beginPath();
-      this.ctx.moveTo(coords[0].x, coords[0].y);
-      this.ctx.lineTo(coords[1].x, coords[1].y);
-      this.ctx.lineTo(coords[2].x, coords[2].y);
-      this.ctx.lineTo(coords[3].x, coords[3].y);
-      this.ctx.lineTo(coords[0].x, coords[0].y);
-      this.ctx.fill();
+    const cellBorderColors = {
+      top: '#b3b3fb',
+      left: '#0000d8',
+      right: '#0000d8',
+      bottom: '#000078'
     };
 
-    const topBorder = {
-      color: '#b3b3fb',
-      coords: [
+    const shadowBorderColors = {
+      top: '#7B794A',
+      left: '#76732B',
+      right: '#76732B',
+      bottom: '#5F5C07'
+    };
+
+    const borderColors = type === 'shapeShadow' ? shadowBorderColors : cellBorderColors;
+
+    const borderCoords = {
+      top: [
         { x, y },
         { x: x + borderSide, y: y + borderSide },
         { x: x + cellSide - borderSide, y: y + borderSide },
         { x: x + cellSide, y }
-      ]
-    };
-    const leftBorder = {
-      color: '#0000d8',
-      coords: [
+      ],
+      left: [
         { x, y },
         { x: x + borderSide, y: y + borderSide},
         { x: x + borderSide, y: y + cellSide - borderSide },
         { x, y: y + cellSide }
-      ]
-    };
-    const rightBorder = {
-      color: '#0000d8',
-      coords: [
+      ],
+      right: [
         { x: x + cellSide - borderSide, y: y + borderSide },
         { x: x + cellSide, y },
         { x: x + cellSide, y: y + cellSide },
         { x: x + cellSide - borderSide, y: y + cellSide - borderSide }
-      ]
-    };
-    const bottomBorder = {
-      color: '#000078',
-      coords: [
+      ],
+      bottom: [
         { x: x + borderSide, y: y + cellSide - borderSide },
         { x, y: y + cellSide },
         { x: x + cellSide, y: y + cellSide },
@@ -82,23 +77,32 @@ class Field extends Component {
       ]
     };
 
-    // Draw borders
-    drawBorder(topBorder);
-    drawBorder(leftBorder);
-    drawBorder(rightBorder);
-    drawBorder(bottomBorder);
+    const drawBorder = (coords, color) => {
+      this.ctx.fillStyle = color;
+      this.ctx.beginPath();
+      for (const [i, { x, y }] of coords.entries()) {
+        if (i === 0) this.ctx.moveTo(x, y);
+        else this.ctx.lineTo(x, y);
+      }
+      this.ctx.fill();
+    };
+
+    for (const border in borderCoords) {
+      drawBorder(borderCoords[border], borderColors[border]);
+    }
 
   }
 
-  drawCells(cells, color) {
-    cells.forEach(cell => this.drawCell(cell, color));
+  drawCells({type, cells, color}) {
+    cells.forEach(cell => this.drawCell({type, x: cell.x, y: cell.y, color: color || cell.color}));
   }
 
   redrawCanvas() {
-    const { filledCells, activeShape } = this.props.state;
+    const { filledCells, activeShape, shapeShadow } = this.props.state;
     this.clearCanvas();
-    this.drawCells(filledCells);
-    this.drawCells(activeShape.cells, activeShape.color);
+    this.drawCells({type: 'filledCells', cells: filledCells});
+    this.drawCells({type: 'shapeShadow', cells: shapeShadow, color: 'black'});
+    this.drawCells({type: 'activeShape', cells: activeShape.cells, color: activeShape.color});
   }
 
   componentDidMount() {

@@ -1,3 +1,5 @@
+import config from './config';
+
 const availableShapes = [
   {
     color: '#00f0f0',
@@ -207,4 +209,23 @@ export const getShapeAfterRotating = shape => {
     rotation: newRotation,
     cells: newCells
   };
+};
+
+export const getShapeShadow = (shape, filledCells) => {
+  const { fieldSize: { height: fieldHeight } } = config;
+  let { cells } = shape;
+  let moveIsAllowed = true;
+
+  while (moveIsAllowed) {
+    const newCells = cells.map(({x, y}) => ({x, y: y + 1}));
+    for (const cell of newCells) {
+      if (filledCells.some(({x, y}) => x === cell.x && y === cell.y)) {
+        moveIsAllowed = false;
+        break;
+      }
+    }
+    if (newCells.some(({x, y}) => y === fieldHeight)) moveIsAllowed = false;
+    if (moveIsAllowed) cells = newCells;
+  }
+  return cells;
 };

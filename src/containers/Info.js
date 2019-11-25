@@ -2,13 +2,17 @@ import React from 'react';
 import Shape from '../components/Shape';
 import '../stylesheets/Info.css';
 import store from '../store';
-import { startGame, pauseGame, resumeGame } from '../actions';
+import { startGame, pauseGame, resumeGame, updateShapeShadow } from '../actions';
 
 const Info = () => {
   const { nextShape, isPlaying, isOver, info } = store.getState();
   const togglePlaying = () => {
     if (isPlaying) store.dispatch(pauseGame());
-    else if (isOver) store.dispatch(startGame());
+    else if (isOver) {
+      store.dispatch(startGame());
+      const { activeShape, filledCells } = store.getState();
+      store.dispatch(updateShapeShadow(activeShape, filledCells));
+    }
     else store.dispatch(resumeGame());
   };
 

@@ -2,6 +2,7 @@ import { combineReducers } from 'redux';
 import filledCells from './filledCells';
 import activeShape from './activeShape';
 import nextShape from './nextShape';
+import shapeShadow from './shapeShadow';
 import isPlaying from './isPlaying';
 import info from './info';
 import isOver from './isOver';
@@ -11,6 +12,7 @@ export default combineReducers({
   filledCells,
   activeShape,
   nextShape,
+  shapeShadow,
   isPlaying,
   info,
   isOver,

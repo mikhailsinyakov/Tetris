@@ -14,7 +14,8 @@ import {
   makeMove,
   clearLine,
   replaceShape,
-  finishGame
+  finishGame,
+  updateShapeShadow
 } from '../actions';
 import * as availableShapes from '../availableShapes';
 import config from '../config';
@@ -46,25 +47,48 @@ class App extends Component {
     return this.isLegalShapePosition(newCells);
   }
 
+  updateShadow() {
+    const { activeShape, filledCells } = store.getState();
+    store.dispatch(updateShapeShadow(activeShape, filledCells));
+  }
+
+  attemptMove(direction) {
+    if (this.canShapeMoveTo(direction)) {
+      store.dispatch(moveShape(direction));
+      this.updateShadow();
+    }
+  }
+
+  attemptRotate() {
+    if (this.canShapeRotate()) {
+      store.dispatch(rotateShape());
+      this.updateShadow();
+    }
+  }
+
   addKeyListeners() {
     document.body.addEventListener('keydown', e => {
       e.preventDefault();
       const { isPlaying, isOver, speedUp } = store.getState();
       if (!isPlaying) {
         if (e.code === 'Space') {
-          if (isOver) store.dispatch(startGame());
+          if (isOver) {
+            store.dispatch(startGame());
+            const { activeShape, filledCells } = store.getState();
+            store.dispatch(updateShapeShadow(activeShape, filledCells));
+          }
           else store.dispatch(resumeGame());
         }
       } else {
         switch (e.code) {
           case 'ArrowUp':
-            if (this.canShapeRotate()) store.dispatch(rotateShape());
+            this.attemptRotate();
             break;
           case 'ArrowLeft':
-            if (this.canShapeMoveTo('left')) store.dispatch(moveShape('left'));
+            this.attemptMove('left');
             break;
           case 'ArrowRight':
-            if (this.canShapeMoveTo('right')) store.dispatch(moveShape('right'));
+            this.attemptMove('right');
             break;
           case 'ArrowDown':
             if (!speedUp) store.dispatch(increaseSpeed());
@@ -116,16 +140,15 @@ class App extends Component {
           lastCoords = { clientX, clientY };
         }
         if (direction === 'left' && Math.abs(shiftX) > 15) {
-          if (this.canShapeMoveTo('left')) store.dispatch(moveShape('left'));
+          this.attemptMove('left');
         } else if (direction === 'right' && Math.abs(shiftX) > 15) {
-          if (this.canShapeMoveTo('right')) store.dispatch(moveShape('right'));
+          this.attemptMove('right');
         } else if (direction === 'bottom' && Math.abs(shiftY) > 15) {
           if (!speedUp) store.dispatch(increaseSpeed());
         }
       } else if (e.type === 'touchend') {
-        if (!moving && this.canShapeRotate()) {
-          store.dispatch(rotateShape());
-        } else if (speedUp) {
+        if (!moving) this.attemptRotate();
+        else if (speedUp) {
           const shiftY = startCoords.clientY - clientY;
           if (Math.abs(shiftY) < 150) store.dispatch(decreaseSpeed());
         }
@@ -201,7 +224,7 @@ class App extends Component {
     store.dispatch(replaceShape(activeShape, nextShape));
     this.clearFullLines();
     store.dispatch(makeMove());
-
+    store.dispatch(updateShapeShadow(store.getState().activeShape, store.getState().filledCells));
   }
 
   updateTimers() {
