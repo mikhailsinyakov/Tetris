@@ -11,7 +11,6 @@ import {
   moveShape,
   increaseSpeed,
   decreaseSpeed,
-  makeMove,
   clearLine,
   replaceShape,
   finishGame,
@@ -22,10 +21,9 @@ import config from '../config';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.timer = null;
-    this.speedTimer = null;
+    this.updateSchedule = { speed: null, timer: null };
     this.updateShadow = this.updateShadow.bind(this);
-    this.handleMove = this.handleMove.bind(this);
+    this.update = this.update.bind(this);
   }
 
   updateShadow() {
@@ -33,12 +31,12 @@ class App extends Component {
     store.dispatch(updateShapeShadow(activeShape, filledCells));
   }
 
-  moveAttempt(direction) {
+  move(direction) {
     store.dispatch(moveShape(direction, store.getState().filledCells));
     this.updateShadow();
   }
 
-  rotateAttempt() {
+  rotate() {
     store.dispatch(rotateShape(store.getState().filledCells));
     this.updateShadow();
   }
@@ -58,13 +56,13 @@ class App extends Component {
       } else {
         switch (e.code) {
           case 'ArrowUp':
-            this.rotateAttempt();
+            this.rotate();
             break;
           case 'ArrowLeft':
-            this.moveAttempt('left');
+            this.move('left');
             break;
           case 'ArrowRight':
-            this.moveAttempt('right');
+            this.move('right');
             break;
           case 'ArrowDown':
             if (!speedUp) store.dispatch(increaseSpeed());
@@ -116,14 +114,14 @@ class App extends Component {
           lastCoords = { clientX, clientY };
         }
         if (direction === 'left' && Math.abs(shiftX) > 15) {
-          this.moveAttempt('left');
+          this.move('left');
         } else if (direction === 'right' && Math.abs(shiftX) > 15) {
-          this.moveAttempt('right');
+          this.move('right');
         } else if (direction === 'bottom' && Math.abs(shiftY) > 15) {
           if (!speedUp) store.dispatch(increaseSpeed());
         }
       } else if (e.type === 'touchend') {
-        if (!moving) this.rotateAttempt();
+        if (!moving) this.rotate();
         else if (speedUp) {
           const shiftY = startCoords.clientY - clientY;
           if (Math.abs(shiftY) < 150) store.dispatch(decreaseSpeed());
@@ -155,48 +153,46 @@ class App extends Component {
     }
   }
 
-  handleMove() {
+  update() {
     const { activeShape, nextShape, filledCells } = store.getState();
-    store.dispatch(makeMove(filledCells));
+    this.move('down');
 
-    // Return, if move was successful
-    if (activeShape !== store.getState().activeShape) return;
-
-    if (!activeShape.isInLegalPlace(filledCells)) {
-      store.dispatch(finishGame());
-      return;
+    const moveDone = activeShape !== store.getState().activeShape;
+    if (!moveDone) {
+      if (!activeShape.isInLegalPlace(filledCells)) {
+        store.dispatch(finishGame());
+      } else {
+        store.dispatch(replaceShape(activeShape, nextShape));
+        this.clearFullLines();
+        this.move('down');
+      }
     }
-
-    store.dispatch(replaceShape(activeShape, nextShape));
-    this.clearFullLines();
-    store.dispatch(makeMove(filledCells));
-    this.updateShadow();
   }
 
-  updateTimers() {
+  updateTimer() {
     const { isPlaying, speedUp, info: { level } } = store.getState();
     const fps = {
       normal: 2 + level,
       speedUp: 20
     };
 
-    const clearTimer = timer => {
-      clearInterval(timer);
-      return null;
-    };
-
-    const addTimer = fps =>
-      setInterval(this.handleMove, 1000 / fps);
-
     if (!isPlaying) {
-      if (this.timer) this.timer = clearTimer(this.timer);
-      if (this.speedTimer) this.speedTimer = clearTimer(this.speedTimer);
-    } else if (speedUp) {
-      if (this.timer) this.timer = clearTimer(this.timer);
-      if (!this.speedTimer) this.speedTimer = addTimer(fps.speedUp);
-    } else {
-      if (!this.timer) this.timer = addTimer(fps.normal);
-      if (this.speedTimer) this.speedTimer = clearTimer(this.speedTimer);
+      if (this.updateSchedule.timer) {
+        clearInterval(this.updateSchedule.timer);
+        this.updateSchedule.timer = null;
+      }
+    } else if (speedUp && this.updateSchedule.speed !== 'speedUp') {
+      clearInterval(this.updateSchedule.timer);
+      this.updateSchedule = {
+        speed: 'speedUp',
+        timer: setInterval(this.update, 1000 / fps.speedUp)
+      };
+    } else if (!speedUp && this.updateSchedule.speed !== 'normal') {
+      clearInterval(this.updateSchedule.timer);
+      this.updateSchedule = {
+        speed: 'normal',
+        timer: setInterval(this.update, 1000 / fps.normal)
+      };
     }
   }
 
@@ -205,9 +201,8 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-    this.updateTimers();
+    this.updateTimer();
   }
-
 
   render() {
     return (

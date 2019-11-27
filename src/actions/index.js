@@ -3,7 +3,6 @@ import {
   PAUSE_GAME,
   RESUME_GAME,
   FINISH_GAME,
-  MAKE_MOVE,
   ROTATE_SHAPE,
   MOVE_SHAPE,
   INCREASE_SPEED,
@@ -35,13 +34,6 @@ export const resumeGame = () => ({
 
 export const finishGame = () => ({
   type: FINISH_GAME
-});
-
-export const makeMove = filledCells => ({
-  type: MAKE_MOVE,
-  payload: {
-    filledCells
-  }
 });
 
 export const rotateShape = filledCells => ({
