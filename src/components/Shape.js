@@ -1,5 +1,4 @@
 import React from 'react';
-import { getShape } from '../availableShapes';
 
 const Shape = ({nextShape}) => {
   if (!nextShape) {
@@ -8,15 +7,14 @@ const Shape = ({nextShape}) => {
     );
   }
 
-  const { type, rotation } = nextShape;
-  const { color, cells: coords } = getShape(type, rotation);
-
-  const maxX = coords.reduce((max, val) => val.x > max ? val.x : max, 0);
+  const { color, initCells: coords } = nextShape;
+  const maxX = Math.max(...coords.map(c => c.x));
+  const minY = Math.min(...coords.map(c => c.y));
   const realCoords = coords.map(coord => {
     const addToX = (3 - maxX) / 2;
     return {
       x: (coord.x + addToX) * 12.5,
-      y: coord.y * 12.5
+      y: (coord.y - minY) * 12.5
     };
   });
 

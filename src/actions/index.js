@@ -12,15 +12,14 @@ import {
   REPLACE_SHAPE,
   UPDATE_SHAPE_SHADOW
 } from '../constants/actionTypes';
-import { getShape } from '../availableShapes';
+import Shape from '../Shape';
 
 export const startGame = cellSide => {
-  const { type, rotation } = getShape(); // Next shape
   return {
     type: START_GAME,
     payload: {
-      activeShape: getShape(),
-      nextShape: { type, rotation },
+      activeShape: new Shape(),
+      nextShape: new Shape(),
       cellSide
     }
   };
@@ -38,18 +37,25 @@ export const finishGame = () => ({
   type: FINISH_GAME
 });
 
-export const makeMove = () => ({
-  type: MAKE_MOVE
+export const makeMove = filledCells => ({
+  type: MAKE_MOVE,
+  payload: {
+    filledCells
+  }
 });
 
-export const rotateShape = () => ({
-  type: ROTATE_SHAPE
+export const rotateShape = filledCells => ({
+  type: ROTATE_SHAPE,
+  payload: {
+    filledCells
+  }
 });
 
-export const moveShape = direction => ({
+export const moveShape = (direction, filledCells) => ({
   type: MOVE_SHAPE,
   payload: {
-    direction
+    direction,
+    filledCells
   }
 });
 
@@ -69,18 +75,12 @@ export const clearLine = number => ({
 });
 
 export const replaceShape = (activeShape, nextShape) => {
-  const { type, rotation } = nextShape;
-  const newNextShape = getShape();
-
   return {
     type: REPLACE_SHAPE,
     payload: {
       prevShape: activeShape,
-      activeShape: getShape(type, rotation),
-      nextShape: {
-        type: newNextShape.type,
-        rotation: newNextShape.rotation
-      }
+      activeShape: nextShape,
+      nextShape: new Shape()
     }
   };
 };

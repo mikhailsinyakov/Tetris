@@ -17,34 +17,15 @@ import {
   finishGame,
   updateShapeShadow
 } from '../actions';
-import * as availableShapes from '../availableShapes';
 import config from '../config';
 
 class App extends Component {
-
   constructor(props) {
     super(props);
     this.timer = null;
     this.speedTimer = null;
-  }
-
-  canShapeRotate() {
-    const { getShapeAfterRotating } = availableShapes;
-    const { activeShape } = store.getState();
-    const { cells } = getShapeAfterRotating(activeShape);
-
-    return this.isLegalShapePosition(cells);
-  }
-
-  canShapeMoveTo(direction) {
-    const { activeShape } = store.getState();
-    const shift = direction === 'left' ? -1 : 1;
-    const newCells = activeShape.cells.map(cell => ({
-      x: cell.x + shift,
-      y: cell.y
-    }));
-
-    return this.isLegalShapePosition(newCells);
+    this.updateShadow = this.updateShadow.bind(this);
+    this.handleMove = this.handleMove.bind(this);
   }
 
   updateShadow() {
@@ -52,18 +33,14 @@ class App extends Component {
     store.dispatch(updateShapeShadow(activeShape, filledCells));
   }
 
-  attemptMove(direction) {
-    if (this.canShapeMoveTo(direction)) {
-      store.dispatch(moveShape(direction));
-      this.updateShadow();
-    }
+  moveAttempt(direction) {
+    store.dispatch(moveShape(direction, store.getState().filledCells));
+    this.updateShadow();
   }
 
-  attemptRotate() {
-    if (this.canShapeRotate()) {
-      store.dispatch(rotateShape());
-      this.updateShadow();
-    }
+  rotateAttempt() {
+    store.dispatch(rotateShape(store.getState().filledCells));
+    this.updateShadow();
   }
 
   addKeyListeners() {
@@ -74,21 +51,20 @@ class App extends Component {
         if (e.code === 'Space') {
           if (isOver) {
             store.dispatch(startGame());
-            const { activeShape, filledCells } = store.getState();
-            store.dispatch(updateShapeShadow(activeShape, filledCells));
+            this.updateShadow();
           }
           else store.dispatch(resumeGame());
         }
       } else {
         switch (e.code) {
           case 'ArrowUp':
-            this.attemptRotate();
+            this.rotateAttempt();
             break;
           case 'ArrowLeft':
-            this.attemptMove('left');
+            this.moveAttempt('left');
             break;
           case 'ArrowRight':
-            this.attemptMove('right');
+            this.moveAttempt('right');
             break;
           case 'ArrowDown':
             if (!speedUp) store.dispatch(increaseSpeed());
@@ -140,14 +116,14 @@ class App extends Component {
           lastCoords = { clientX, clientY };
         }
         if (direction === 'left' && Math.abs(shiftX) > 15) {
-          this.attemptMove('left');
+          this.moveAttempt('left');
         } else if (direction === 'right' && Math.abs(shiftX) > 15) {
-          this.attemptMove('right');
+          this.moveAttempt('right');
         } else if (direction === 'bottom' && Math.abs(shiftY) > 15) {
           if (!speedUp) store.dispatch(increaseSpeed());
         }
       } else if (e.type === 'touchend') {
-        if (!moving) this.attemptRotate();
+        if (!moving) this.rotateAttempt();
         else if (speedUp) {
           const shiftY = startCoords.clientY - clientY;
           if (Math.abs(shiftY) < 150) store.dispatch(decreaseSpeed());
@@ -168,26 +144,6 @@ class App extends Component {
     this.addTouchListeners();
   }
 
-  isLegalShapePosition(cells) {
-    const { filledCells } = store.getState();
-    const { width, height } = config.fieldSize;
-
-    for (const filledCell of filledCells) {
-      for (const cell of cells) {
-        if (filledCell.x === cell.x && filledCell.y === cell.y) {
-          return false;
-        }
-      }
-    }
-
-    for (const cell of cells) {
-      if (cell.y >= height) return false;
-      if (cell.x < 0 || cell.x >= width) return false;
-    }
-
-    return true;
-  }
-
   clearFullLines() {
     const { width, height } = config.fieldSize;
     for (let i = height - 1; i >= 0;) {
@@ -199,32 +155,22 @@ class App extends Component {
     }
   }
 
-  isShapeOutsideField() {
-    const { cells } = store.getState().activeShape;
-    for (const cell of cells) {
-      if (cell.y < 0) return true;
-    }
-    return false;
-  }
-
   handleMove() {
-    const { activeShape, nextShape } = store.getState();
-    const newCells = activeShape.cells.map(cell => ({
-      x: cell.x,
-      y: cell.y + 1
-    }));
+    const { activeShape, nextShape, filledCells } = store.getState();
+    store.dispatch(makeMove(filledCells));
 
-    if (this.isLegalShapePosition(newCells)) {
-      return store.dispatch(makeMove());
-    }
-    if (this.isShapeOutsideField()) {
-      return store.dispatch(finishGame());
+    // Return, if move was successful
+    if (activeShape !== store.getState().activeShape) return;
+
+    if (!activeShape.isInLegalPlace(filledCells)) {
+      store.dispatch(finishGame());
+      return;
     }
 
     store.dispatch(replaceShape(activeShape, nextShape));
     this.clearFullLines();
-    store.dispatch(makeMove());
-    store.dispatch(updateShapeShadow(store.getState().activeShape, store.getState().filledCells));
+    store.dispatch(makeMove(filledCells));
+    this.updateShadow();
   }
 
   updateTimers() {
@@ -240,8 +186,7 @@ class App extends Component {
     };
 
     const addTimer = fps =>
-      setInterval(() =>
-        this.handleMove(), 1000 / fps);
+      setInterval(this.handleMove, 1000 / fps);
 
     if (!isPlaying) {
       if (this.timer) this.timer = clearTimer(this.timer);
@@ -268,7 +213,7 @@ class App extends Component {
     return (
       <div className="app">
         <Field state={store.getState()} />
-        <Info />
+        <Info updateShadow={this.updateShadow} />
       </div>
     );
   }

@@ -19,7 +19,7 @@ class Field extends Component {
   }
 
   drawCell({type, x, y, color}) {
-    const { cellSide } = config;
+    const { scale: cellSide } = config;
     const borderSide = cellSide / 8;
     const innerCellSide = cellSide - 2 * borderSide;
     x = x * cellSide;
@@ -101,7 +101,9 @@ class Field extends Component {
     const { filledCells, activeShape, shapeShadow } = this.props.state;
     this.clearCanvas();
     this.drawCells({type: 'filledCells', cells: filledCells});
-    this.drawCells({type: 'shapeShadow', cells: shapeShadow, color: 'black'});
+    if (shapeShadow) {
+      this.drawCells({type: 'shapeShadow', cells: shapeShadow, color: 'black'});
+    }
     this.drawCells({type: 'activeShape', cells: activeShape.cells, color: activeShape.color});
   }
 
@@ -114,13 +116,13 @@ class Field extends Component {
   }
 
   render() {
-    const { width, height } = config.fieldSizePx;
+    const { fieldSize: { width, height }, scale } = config;
     return (
       <canvas
         ref={this.canvas}
         className="field"
-        width={width}
-        height={height}
+        width={width * scale}
+        height={height * scale}
       >
       </canvas>
     );
