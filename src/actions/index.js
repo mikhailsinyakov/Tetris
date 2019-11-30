@@ -9,17 +9,17 @@ import {
   DECREASE_SPEED,
   CLEAR_LINE,
   REPLACE_SHAPE,
-  UPDATE_SHAPE_SHADOW
+  UPDATE_SHAPE_SHADOW,
+  CHANGE_DIALOG_NAME
 } from '../constants/actionTypes';
 import Shape from '../Shape';
 
-export const startGame = cellSide => {
+export const startGame = () => {
   return {
     type: START_GAME,
     payload: {
       activeShape: new Shape(),
-      nextShape: new Shape(),
-      cellSide
+      nextShape: new Shape()
     }
   };
 };
@@ -32,8 +32,11 @@ export const resumeGame = () => ({
   type: RESUME_GAME
 });
 
-export const finishGame = () => ({
-  type: FINISH_GAME
+export const finishGame = result => ({
+  type: FINISH_GAME,
+  payload: {
+    result
+  }
 });
 
 export const rotateShape = filledCells => ({
@@ -83,6 +86,15 @@ export const updateShapeShadow = (activeShape, filledCells) => {
     payload: {
       activeShape,
       filledCells
+    }
+  };
+};
+
+export const changeDialogName = dialogName => {
+  return {
+    type: CHANGE_DIALOG_NAME,
+    payload: {
+      dialogName
     }
   };
 };

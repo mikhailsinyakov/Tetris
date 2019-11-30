@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Field from '../components/Field';
 import Info from './Info';
+import Dialog from '../components/Dialog';
 import '../stylesheets/App.css';
 import store from '../store';
 import {
@@ -14,7 +15,8 @@ import {
   clearLine,
   replaceShape,
   finishGame,
-  updateShapeShadow
+  updateShapeShadow,
+  changeDialogName
 } from '../actions';
 import config from '../config';
 
@@ -22,7 +24,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.updateSchedule = { speed: null, timer: null };
-    this.updateShadow = this.updateShadow.bind(this);
+    this.state = {
+      pointerType: null
+    };
     this.update = this.update.bind(this);
   }
 
@@ -154,13 +158,14 @@ class App extends Component {
   }
 
   update() {
-    const { activeShape, nextShape, filledCells } = store.getState();
+    const { activeShape, nextShape, filledCells, info } = store.getState();
     this.move('down');
 
     const moveDone = activeShape !== store.getState().activeShape;
     if (!moveDone) {
       if (!activeShape.isInLegalPlace(filledCells)) {
-        store.dispatch(finishGame());
+        store.dispatch(finishGame(Math.round(info.score)));
+        store.dispatch(changeDialogName('game-result'))
       } else {
         store.dispatch(replaceShape(activeShape, nextShape));
         this.clearFullLines();
@@ -179,7 +184,10 @@ class App extends Component {
     if (!isPlaying) {
       if (this.updateSchedule.timer) {
         clearInterval(this.updateSchedule.timer);
-        this.updateSchedule.timer = null;
+        this.updateSchedule = {
+          speed: null,
+          timer: null
+        };
       }
     } else if (speedUp && this.updateSchedule.speed !== 'speedUp') {
       clearInterval(this.updateSchedule.timer);
@@ -196,8 +204,22 @@ class App extends Component {
     }
   }
 
+  definePointerType() {
+    return new Promise(resolve => {
+      document.body.addEventListener('mousemove', function setPointerType() {
+        resolve('mouse');
+        document.body.removeEventListener('mousemove', setPointerType);
+      });
+      document.body.addEventListener('touchstart', function setPointerType() {
+        resolve('touchscreen');
+        document.body.removeEventListener('touchstart', setPointerType);
+      });
+    });
+  }
+
   componentDidMount() {
     this.addListeners();
+    this.definePointerType().then(type => this.setState({pointerType: type}));
   }
 
   componentDidUpdate() {
@@ -205,10 +227,13 @@ class App extends Component {
   }
 
   render() {
+    const state = store.getState();
+
     return (
       <div className="app">
-        <Field state={store.getState()} />
-        <Info updateShadow={this.updateShadow} />
+        <Field state={state} />
+        <Info />
+        <Dialog state={state} pointerType={this.state.pointerType} />
       </div>
     );
   }

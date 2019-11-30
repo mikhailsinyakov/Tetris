@@ -7,6 +7,9 @@ import isPlaying from './isPlaying';
 import info from './info';
 import isOver from './isOver';
 import speedUp from './speedUp';
+import dialogName from './dialogName';
+import records from './records';
+import lastResult from './lastResult';
 
 export default combineReducers({
   filledCells,
@@ -16,5 +19,8 @@ export default combineReducers({
   isPlaying,
   info,
   isOver,
-  speedUp
+  speedUp,
+  dialogName,
+  records,
+  lastResult
 });

@@ -1,0 +1,32 @@
+import React from 'react';
+import Menu from '../containers/Menu';
+import Records from '../containers/Records';
+import Controls from '../containers/Controls';
+import GameResult from '../containers/GameResult';
+import '../stylesheets/Dialog.css';
+
+const Dialog = ({ state, pointerType }) => {
+    const { isOver: show, dialogName: name, records, lastResult } = state;
+    const Child = () => {
+        switch(name) {
+            case 'menu':
+                return <Menu />;
+            case 'records':
+                return <Records records={records} />;
+            case 'controls': 
+                return <Controls pointerType={pointerType} />;
+            case 'game-result':
+                return <GameResult lastResult={lastResult} records={records} />;
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <div className="dialog" style={{display: show ? 'block' : 'none'}}>
+            <Child />
+        </div>
+    );
+};
+
+export default Dialog;

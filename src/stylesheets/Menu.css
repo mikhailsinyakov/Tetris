@@ -1,0 +1,21 @@
+.menu {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu button {
+    font-size: 20px;
+    margin-top: 20px;
+    width: 150px;
+}
+
+.menu button:hover {
+    background: #269c26;
+}
+
+.menu button:focus {
+    outline: none;
+}
