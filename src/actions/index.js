@@ -1,18 +1,14 @@
 import {
   START_GAME,
-  PAUSE_GAME,
-  RESUME_GAME,
   FINISH_GAME,
   ROTATE_SHAPE,
   MOVE_SHAPE,
-  INCREASE_SPEED,
-  DECREASE_SPEED,
   CLEAR_LINE,
   REPLACE_SHAPE,
   UPDATE_SHAPE_SHADOW,
   CHANGE_DIALOG_NAME
 } from '../constants/actionTypes';
-import Shape from '../Shape';
+import Shape from '../lib/Shape';
 
 export const startGame = () => {
   return {
@@ -24,14 +20,6 @@ export const startGame = () => {
   };
 };
 
-export const pauseGame = () => ({
-  type: PAUSE_GAME
-});
-
-export const resumeGame = () => ({
-  type: RESUME_GAME
-});
-
 export const finishGame = result => ({
   type: FINISH_GAME,
   payload: {
@@ -39,10 +27,11 @@ export const finishGame = result => ({
   }
 });
 
-export const rotateShape = filledCells => ({
-  type: ROTATE_SHAPE,
+export const rotateShape = (filledCells, clockwise) => ({
+	type: ROTATE_SHAPE,
   payload: {
-    filledCells
+		filledCells,
+		clockwise
   }
 });
 
@@ -52,14 +41,6 @@ export const moveShape = (direction, filledCells) => ({
     direction,
     filledCells
   }
-});
-
-export const increaseSpeed = () => ({
-  type: INCREASE_SPEED
-});
-
-export const decreaseSpeed = () => ({
-  type: DECREASE_SPEED
 });
 
 export const clearLine = number => ({

@@ -2,24 +2,17 @@ import React from 'react';
 import Shape from '../components/Shape';
 import '../stylesheets/Info.css';
 import store from '../store';
-import { startGame, pauseGame, resumeGame, updateShapeShadow } from '../actions';
 
-const Info = () => {
-  const { nextShape, isPlaying, isOver, info } = store.getState();
-  const togglePlaying = () => {
-    if (isPlaying) store.dispatch(pauseGame());
-    else if (isOver) {
-      store.dispatch(startGame());
-      const { activeShape, filledCells } = store.getState();
-      store.dispatch(updateShapeShadow(activeShape, filledCells))
-    }
-    else store.dispatch(resumeGame());
-  };
+const Info = ({gameSituation, togglePause}) => {
+	const { nextShape, info } = store.getState();
+	let buttonName;
+	if (gameSituation === 'paused' || gameSituation === 'not started') buttonName = 'PLAY';
+	else if (gameSituation === 'playing') buttonName = 'PAUSE';
 
   return (
     <div className="info">
-      <button id="toggle-playing" onClick={togglePlaying} >
-        {isPlaying ? 'PAUSE' : 'PLAY'}
+      <button id="toggle-playing" onClick={togglePause} >
+        {buttonName}
       </button>
       <span><b>NEXT SHAPE:</b></span>
       <Shape nextShape={nextShape} />

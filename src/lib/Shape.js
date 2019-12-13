@@ -1,4 +1,5 @@
-import config from './config';
+import config from '../config';
+const { fieldSize } = config;
 
 class Cell {
   constructor(x, y) {
@@ -10,21 +11,27 @@ class Cell {
     return new Cell(this.x + cell.x, this.y + cell.y);
   }
 
-  rotate(center) {
+  rotate(center, clockwise) {
     const dx1 = this.x + 0.5 - center.x, dy1 = this.y + 0.5 - center.y;
     const distance = Math.sqrt(dx1 ** 2 + dy1 ** 2);
-    const angle = Math.atan2(dy1, dx1);
-    const dx2 = Math.round(Math.cos(angle + Math.PI / 2) * distance * 10) / 10;
-    const dy2 = Math.round(Math.sin(angle + Math.PI / 2) * distance * 10) / 10;
+		const angle = Math.atan2(dy1, dx1);
+		const newAngle = clockwise ? angle + Math.PI / 2 : angle - Math.PI / 2;
+    const dx2 = Math.round(Math.cos(newAngle) * distance * 10) / 10;
+    const dy2 = Math.round(Math.sin(newAngle) * distance * 10) / 10;
     return new Cell(center.x + dx2 - 0.5, center.y + dy2 - 0.5);
   }
 
   isInLegalPlace(filledCells) {
-    const { width, height } = config.fieldSize;
+    const { width, height } = fieldSize;
 
     return this.y < height && this.x >= 0 && this.x < width && 
             !filledCells.some(({x, y}) => x === this.x && y === this.y);
-  }
+	}
+	
+	isInsideField() {
+		const { width, height } = fieldSize;
+		return this.y >= 0 && this.y < height && this.x >= 0 && this.x < width;
+	}
 }
 
 const shapes = [
@@ -112,7 +119,7 @@ class Shape {
     this.initCells = shape.cells;
     const { width, height } = this.size;
     this.pos = new Cell(
-      Math.floor(config.fieldSize.width / 2 - width / 2),
+      Math.floor(fieldSize.width / 2 - width / 2),
       -height
     );
     this.color = shape.color;
@@ -127,9 +134,10 @@ class Shape {
   }
 
   get size() {
+		const cells = this.initCells;
     return {
-      width: Math.max(...this.initCells.map(cell => cell.x)) + 1,
-      height: Math.max(...this.initCells.map(cell => cell.y)) + 1
+      width: Math.max(...cells.map(c => c.x)) + 1,
+      height: Math.max(...cells.map(c => c.y)) + 1
     };
   }
 
@@ -138,7 +146,7 @@ class Shape {
   }
 
   getShadow(filledCells) {
-    const { fieldSize: { height: fieldHeight } } = config;
+    const { height: fieldHeight } = fieldSize;
     let cells = this.cells;
     let moveIsAllowed = true;
   
@@ -167,10 +175,14 @@ class Shape {
     return this;
   }
 
-  tryToRotate(filledCells) {
+  tryToRotate(filledCells, clockwise) {
     const { width, height } = this.size;
-    const center = new Cell(Math.floor(width / 2), Math.floor(height / 2));
-    const initCells = this.initCells.map(cell => cell.rotate(center));
+		const center = new Cell(Math.floor(width / 2), Math.floor(height / 2));
+		let initCells = this.initCells.map(cell => cell.rotate(center, clockwise));
+		const minX = Math.min(...initCells.map(c => c.x));
+		const minY = Math.min(...initCells.map(c => c.y));
+		initCells = initCells.map(c => new Cell(c.x - minX, c.y - minY));
+
     const cells = initCells.map(cell => cell.plus(this.pos));
     if (this.isInLegalPlace(filledCells, cells)) {
       return new Shape(initCells, this.pos, this.color);
@@ -181,7 +193,11 @@ class Shape {
   isInLegalPlace(filledCells, cells) {
     cells = cells || this.cells;
     return cells.every(cell => cell.isInLegalPlace(filledCells));
-  }
+	}
+	
+	isInsideField() {
+		return this.cells.every(cell => cell.isInsideField());
+	}
 }
 
 export default Shape;

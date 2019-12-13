@@ -1,5 +1,5 @@
 import { FINISH_GAME } from '../constants/actionTypes';
-import Records from '../Records';
+import Records from '../lib/Records';
 const records = new Records();
 
 export default (state = records.get(), action) => {

@@ -112,7 +112,7 @@ class Field extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.state.isPlaying) this.redrawCanvas();
+    if (this.props.isPlaying) this.redrawCanvas();
   }
 
   render() {

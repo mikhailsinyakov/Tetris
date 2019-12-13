@@ -11,7 +11,7 @@ export default (shape = null, action) => {
     case REPLACE_SHAPE: 
       return action.payload.activeShape;
     case ROTATE_SHAPE:
-      return shape.tryToRotate(action.payload.filledCells);
+      return shape.tryToRotate(action.payload.filledCells, action.payload.clockwise);
     case MOVE_SHAPE: {
       const { direction, filledCells } = action.payload;
       return shape.tryToMove(direction, filledCells);

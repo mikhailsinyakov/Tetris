@@ -1,15 +1,10 @@
 import React from 'react';
 import store from '../store';
-import { changeDialogName, startGame, updateShapeShadow } from '../actions';
+import { changeDialogName } from '../actions';
 import '../stylesheets/GameResult.css';
 
-const GameResult = ({lastResult, records}) => {
+const GameResult = ({lastResult, records, startGame}) => {
     const personalPlace = records.personal.findIndex(record => record.points === lastResult) + 1;
-    const startNewGame = () => {
-        store.dispatch(startGame());
-        const { activeShape, filledCells } = store.getState();
-        store.dispatch(updateShapeShadow(activeShape, filledCells));
-    };
 
     return (
         <div className="game-result">
@@ -30,7 +25,7 @@ const GameResult = ({lastResult, records}) => {
                         result</p> :
                     ''
             }
-            <button onClick={startNewGame}>Play again</button>
+            <button onClick={startGame}>Play again</button>
         </div>
     );
 };
