@@ -109,6 +109,7 @@ class GameProcess {
 		this.eventsHandler.reset();
 	}
 
+
 	runAction(action, value) {
 		if (action === 'moveLeft') this.move('left');
 		if (action === 'moveRight') this.move('right');
@@ -156,11 +157,12 @@ class GameProcess {
 	moveToCursor() {
 		if (this.cursor.x === null) return;
 
+		//console.log('moveToCursor')
 		let deltaX = this.getDeltaXBetweenShapeAndCursor();
 		let newDeltaX;
 		
-		while (deltaX !== 0 && deltaX !== newDeltaX) {
-			deltaX = newDeltaX;
+		while (deltaX !== 0 && newDeltaX !== 0 && deltaX !== newDeltaX) {
+			if (newDeltaX !== undefined) deltaX = newDeltaX;
 			const direction = deltaX > 0 ? 'right' : 'left';
 			this.move(direction);
 
@@ -170,6 +172,7 @@ class GameProcess {
 
 	getCloserToCursor() {
 		if (this.cursor.x === null) return;
+		//console.log('getCloserToCursor')
 		const deltaX = this.getDeltaXBetweenShapeAndCursor();
 		const distance = Math.abs(deltaX);
 		if (distance > 0) {
@@ -187,6 +190,7 @@ class GameProcess {
 		const shapeWidth = activeShape.size.width;
 		let x = shapeWidth > 2 ? this.cursor.x - 1 : this.cursor.x;
 		x = Math.min(Math.max(0, x), config.fieldSize.width - 1);
+		//console.log({shapeX: activeShape.pos.x, cursorX: this.cursor.x})
 		const currX = activeShape.pos.x;
 		return x - currX;
 	}
