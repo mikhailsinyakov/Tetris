@@ -44,8 +44,8 @@ class MouseListener {
 			if (e.button === 2) {
 				this.rightButtonDown = true;
 				this.sendRightClickEvent();
+				this.callback({type: 'right-click'});
 			}
-			this.callback({type: 'right-click'});
 		} else if (e.type === 'mouseup') {
 			if (e.button === 2) this.rightButtonDown = false;
 		} else if (e.type === 'contextmenu') e.preventDefault();
@@ -72,8 +72,8 @@ class MouseListener {
 		document.body.removeEventListener('wheel', this.listener);
 		document.body.removeEventListener('mousemove', this.listener);
 		document.body.removeEventListener('click', this.listener);
-		document.body.addEventListener('mousedown', this.listener);
-		document.body.addEventListener('mouseup', this.listener);
+		document.body.removeEventListener('mousedown', this.listener);
+		document.body.removeEventListener('mouseup', this.listener);
 		this.callback = null;
 	}
 }

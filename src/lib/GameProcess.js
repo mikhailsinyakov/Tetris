@@ -105,7 +105,7 @@ class GameProcess {
 					} else this.runAction(action, value);
 				}
 			}
-			this.getCloserToCursor();
+			if (!this.futureActions.length) this.getCloserToCursor();
 		} else if (activeActions.space) this.space();
 		
 		this.eventsHandler.reset();
@@ -141,8 +141,8 @@ class GameProcess {
 			store.dispatch(replaceShape(activeShape, nextShape));
 			this.shapesCount++;
 			this.moveToCursor();
-			this.updateShadow();
 			this.clearFullLines();
+			this.updateShadow();
 			this.updateMode = 'standart';
 		} else this.finish();
 	}
