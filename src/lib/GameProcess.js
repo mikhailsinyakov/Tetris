@@ -96,16 +96,14 @@ class GameProcess {
 			if (this.futureActions.length) {
 				const action = this.futureActions.shift();
 				action();
-			}
+			} else this.getCloserToCursor();
+
 			for (const action in activeActions) {
 				const value = activeActions[action];
 				if (value) {
-					if (this.futureActions.length) {
-						this.futureActions.push(() => this.runAction(action, value));
-					} else this.runAction(action, value);
+					this.futureActions.push(() => this.runAction(action, value));
 				}
 			}
-			if (!this.futureActions.length) this.getCloserToCursor();
 		} else if (activeActions.space) this.space();
 		
 		this.eventsHandler.reset();
