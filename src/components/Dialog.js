@@ -5,7 +5,7 @@ import Controls from '../containers/Controls';
 import GameResult from '../containers/GameResult';
 import '../stylesheets/Dialog.css';
 
-const Dialog = ({ state, pointerType, startGame }) => {
+const Dialog = ({ state, startGame }) => {
     const { isOver: show, dialogName: name, records, lastResult } = state;
     const Child = () => {
         switch(name) {
@@ -14,7 +14,7 @@ const Dialog = ({ state, pointerType, startGame }) => {
             case 'records':
                 return <Records records={records} />;
             case 'controls': 
-                return <Controls pointerType={pointerType} />;
+                return <Controls />;
             case 'game-result':
                 return (
 									<GameResult lastResult={lastResult} 

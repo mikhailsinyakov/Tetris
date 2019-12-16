@@ -13,24 +13,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			gameSituation: 'not started',
-      pointerType: null
+			gameSituation: 'not started'
 		};
 		this.togglePause = this.togglePause.bind(this);
 		this.startGame = this.startGame.bind(this);
-  }
-
-  definePointerType() {
-    return new Promise(resolve => {
-      document.body.addEventListener('mousemove', function setPointerType() {
-        resolve('mouse');
-        document.body.removeEventListener('mousemove', setPointerType);
-      });
-      document.body.addEventListener('touchstart', function setPointerType() {
-        resolve('touchscreen');
-        document.body.removeEventListener('touchstart', setPointerType);
-      });
-    });
   }
 	
 	togglePause() {
@@ -52,7 +38,6 @@ class App extends Component {
         store.dispatch(changeDialogName('game-result'))
 			}
 		});
-    this.definePointerType().then(type => this.setState({pointerType: type}));
 	}
 	
 	componentWillUnmount() {
@@ -66,7 +51,7 @@ class App extends Component {
       <div className="app">
         <Field state={state} isPlaying={this.state.gameSituation === 'playing'}/>
         <Info gameSituation={this.state.gameSituation} togglePause={this.togglePause}/>
-        <Dialog state={state} startGame={this.startGame} pointerType={this.state.pointerType} />
+        <Dialog state={state} startGame={this.startGame} />
       </div>
     );
   }

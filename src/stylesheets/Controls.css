@@ -4,3 +4,7 @@
     border-radius: 10px;
     padding: 10px;
 }
+
+.controls .tabs button.active {
+	color: red;
+}
