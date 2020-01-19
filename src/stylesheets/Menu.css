@@ -11,10 +11,7 @@
     font-size: var(--menu-button-font-size);
     margin-top: var(--menu-button-font-size);
     width: calc(8 * var(--menu-button-font-size));
-}
-
-.menu button:hover {
-    background: #269c26;
+		border: 1px solid var(--primary-color);
 }
 
 .menu button:focus {

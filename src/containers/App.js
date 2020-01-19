@@ -45,11 +45,13 @@ class App extends Component {
 	}
 
   render() {
-    const state = store.getState();
+		const state = store.getState();
 
     return (
-      <div className="app">
-				<div className="game">
+			<div className="app" 
+				style={{backgroundColor: state.isOver ? 'var(--dark-background-color)' :
+																								'var(--background-color)'}}>
+				<div className="game" style={{filter: state.isOver ? 'brightness(0.7)' : 'none'}}>
 					<Field state={state} isPlaying={this.state.gameSituation === 'playing'}/>
 					<Info gameSituation={this.state.gameSituation} togglePause={this.togglePause}/>
 				</div>

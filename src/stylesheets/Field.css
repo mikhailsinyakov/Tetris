@@ -2,6 +2,6 @@
   background: black;
   width: 60%;
   height: 100%;
-  transition: width 2s, height 2s;
+  background-color: var(--primary-color);
 }
 

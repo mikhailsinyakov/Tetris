@@ -3,7 +3,7 @@ import React from 'react';
 const Shape = ({nextShape}) => {
   if (!nextShape) {
     return (
-      <svg width={35} height={35}></svg>
+      <svg width={50} height={50}></svg>
     );
   }
 
@@ -19,7 +19,7 @@ const Shape = ({nextShape}) => {
   });
 
   return (
-    <svg width={35} height={35} viewBox="0 0 50 50">
+    <svg width={50} height={50} viewBox="0 0 50 50">
       {
         realCoords.map((coord, i) =>
           <rect
@@ -28,7 +28,7 @@ const Shape = ({nextShape}) => {
             y={coord.y}
             width={12.5}
             height={12.5}
-            style={{fill: color, stroke: 'red'}}
+            style={{fill: color, stroke: 'var(--primary-color'}}
           />
         )
       }

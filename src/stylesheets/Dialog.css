@@ -6,5 +6,6 @@
     width: 100vmin;
     height: 100vmin;
     border-radius: 20px;
-    margin: -50vmin 0 0 -50vmin;
+		margin: -50vmin 0 0 -50vmin;
+		filter: none;
 }

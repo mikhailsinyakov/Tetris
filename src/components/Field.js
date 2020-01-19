@@ -18,13 +18,17 @@ class Field extends Component {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  drawCell({type, x, y, color}) {
+  drawCell({type, x, y, color, cssVar}) {
     const { scale: cellSide } = config;
     const borderSide = cellSide / 8;
     const innerCellSide = cellSide - 2 * borderSide;
     x = x * cellSide;
     y = y * cellSide;
 
+		if (!color && cssVar) {
+			color = getComputedStyle(document.documentElement).getPropertyValue(cssVar);
+		}
+		
     // Draw main part of the cell
     this.ctx.fillStyle = color;
     this.ctx.fillRect(
@@ -93,8 +97,14 @@ class Field extends Component {
 
   }
 
-  drawCells({type, cells, color}) {
-    cells.forEach(cell => this.drawCell({type, x: cell.x, y: cell.y, color: color || cell.color}));
+  drawCells({type, cells, color, cssVar}) {
+    cells.forEach(cell => this.drawCell({
+			type, 
+			x: cell.x, 
+			y: cell.y, 
+			color: cssVar ? color : color ? color : cell.color,
+			cssVar
+		}));
   }
 
   redrawCanvas() {
@@ -102,7 +112,7 @@ class Field extends Component {
     this.clearCanvas();
     this.drawCells({type: 'filledCells', cells: filledCells});
     if (shapeShadow) {
-      this.drawCells({type: 'shapeShadow', cells: shapeShadow, color: 'black'});
+      this.drawCells({type: 'shapeShadow', cells: shapeShadow, cssVar: '--primary-color'});
     }
     this.drawCells({type: 'activeShape', cells: activeShape.cells, color: activeShape.color});
   }
