@@ -1,4 +1,5 @@
 import React from 'react';
+import Indicator from '../components/Indicator';
 import Shape from '../components/Shape';
 import '../stylesheets/Info.css';
 import store from '../store';
@@ -14,11 +15,8 @@ const Info = ({gameSituation, togglePause}) => {
       <button id="toggle-playing" onClick={togglePause} >
         {buttonName}
       </button>
-      <span><b>NEXT SHAPE:</b></span>
-      <Shape nextShape={nextShape} />
-      <span><b>SCORE:</b>{Math.floor(info.score)}</span>
-      <span><b>LEVEL:</b>{info.level}</span>
-      <span><b>LINES:</b>{info.lines}</span>
+			<Indicator name="next" component={<Shape nextShape={nextShape}/>}/>
+			<Indicator name="score" value={Math.floor(info.score)}/>
     </div>
   );
 };

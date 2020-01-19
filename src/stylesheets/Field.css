@@ -1,30 +1,7 @@
 .field {
   background: black;
-  width: 150px;
-  height: 250px;
-  flex: 0 0 auto;
-  margin-right: 1rem;
+  width: 60%;
+  height: 100%;
   transition: width 2s, height 2s;
 }
 
-
-@media (min-width: 450px) and (min-height: 500px) {
-  .field {
-    width: 255px;
-    height: 450px;
-  }
-}
-
-@media (min-width: 600px) and (min-height: 650px) {
-  .field {
-    width: 360px;
-    height: 600px;
-  }
-}
-
-@media (min-width: 800px) and (min-height: 800px) {
-  .field {
-    width: 450px;
-    height: 750px;
-  }
-}

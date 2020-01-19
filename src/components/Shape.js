@@ -3,7 +3,7 @@ import React from 'react';
 const Shape = ({nextShape}) => {
   if (!nextShape) {
     return (
-      <svg width={50} height={50}></svg>
+      <svg width={35} height={35}></svg>
     );
   }
 

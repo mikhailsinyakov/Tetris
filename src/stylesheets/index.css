@@ -11,13 +11,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-width: 320px;
 }
 
 button {
   cursor: pointer;
   background: #8bd82a;
-  padding: 5px;
+  padding: 0.5rem;
   border: 0;
   box-shadow: 0 0 7px 0 black;
   border-radius: 5px;
@@ -32,8 +31,11 @@ button:focus {
 }
 
 .back-button {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-weight: bold;
+	float: left;
+	margin-left: 0.5rem;
+	cursor: pointer;
+}
+
+.back-button:hover {
+	color: #444141;
 }

@@ -1,0 +1,21 @@
+.indicator {
+	position: relative;
+	background: radial-gradient(#7e769e, #325fd0);
+	border-radius: 1rem;
+	box-shadow: 0 0 5px 0px #070735;
+	padding: 0.5rem;
+}
+
+.indicator .name {
+	border-bottom: 1px solid #563434;
+}
+
+.indicator .component {
+	margin-top: 0.5rem;
+}
+
+@media screen and (min-width: 700px) and (min-height: 700px) {
+  .indicator {
+		padding: 1rem;
+	}
+}

@@ -7,9 +7,10 @@
 }
 
 .menu button {
-    font-size: 20px;
-    margin-top: 20px;
-    width: 150px;
+		--menu-button-font-size: 1rem;
+    font-size: var(--menu-button-font-size);
+    margin-top: var(--menu-button-font-size);
+    width: calc(8 * var(--menu-button-font-size));
 }
 
 .menu button:hover {
@@ -18,4 +19,28 @@
 
 .menu button:focus {
     outline: none;
+}
+
+@media screen and (min-width: 400px) and (min-height: 400px) {
+	.menu button {
+		--menu-button-font-size: 1.2rem;
+	}
+}
+
+@media screen and (min-width: 500px) and (min-height: 500px) {
+	.menu button {
+		--menu-button-font-size: 1.5rem;
+	}
+}
+
+@media screen and (min-width: 700px) and (min-height: 700px) {
+	.menu button {
+		--menu-button-font-size: 2rem;
+	}
+}
+
+@media screen and (min-width: 900px) and (min-height: 900px) {
+	.menu button {
+		--menu-button-font-size: 2.5rem;
+	}
 }

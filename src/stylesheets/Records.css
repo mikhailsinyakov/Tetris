@@ -1,13 +1,119 @@
 .records {
-    height: 100%;
-    background: #9e4e1d;
-    border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	height: 90%;
+	margin: 5% auto;
+	padding-top: 0.5rem;
+	padding-bottom: 1rem;
+	background: linear-gradient(rgba(207, 218, 212, 0.95) 15%, 
+															rgba(119, 113, 113, 0.95) 15%);
+	border-radius: 1rem;
+	font-size: 1rem;
 }
 
-.records button {
-    margin: 10px;
+.records .buttons {
+	height: 15%;
 }
 
-.records button.active {
-    background: red;
+.records .buttons .choose-part-button {
+	background-color: initial;
+	box-shadow: initial;
+	border-radius: 0;
+	font-size: 0.9em;
+}
+
+.records .buttons button:nth-of-type(1).active {
+	border-right: 1px solid grey;
+	border-bottom-right-radius: 5px;
+}
+
+.records .buttons button:nth-of-type(2).active {
+	border-left: 1px solid grey;
+	border-bottom-left-radius: 5px;
+}
+
+.records .buttons .active {
+	border-bottom: 1px solid grey;
+	font-weight: bold;
+}
+
+.records .data {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+	justify-content: center;
+}
+
+.records .data p {
+	margin: 0.5rem;
+}
+
+.records .data p:nth-child(n+7) {
+	display: none;
+}
+
+.records .data span {
+	margin-right: 0.5rem;
+}
+
+.records .data .place {
+	font-weight: bold;
+	font-size: 1.1rem;
+	color: #131315;
+}
+
+.records p:nth-child(-n+3) .points {
+	color: #0d440d;
+}
+
+@media screen and (min-width: 400px) and (min-height: 400px) {
+	.records {
+		width: 70%;
+		height: 80%;
+		margin: 10% auto;
+		font-size: 1.1rem;
+	}
+}
+
+@media screen and (min-width: 500px) and (min-height: 500px) {
+	.records {
+		width: 60%;
+		height: 70%;
+		margin: 15% auto;
+		font-size: 1.2rem;
+	}
+
+	.records .data p:nth-child(-n+7) {
+		display: block;
+	}
+}
+
+@media screen and (min-width: 600px) and (min-height: 600px) {
+	.records {
+		width: 50%;
+		height: 60%;
+		margin: 20% auto;
+		font-size: 1.3rem;
+	}
+}
+
+@media screen and (min-width: 700px) and (min-height: 700px) {
+	.records {
+		font-size: 1.5rem;
+	}
+
+	.records .data p:nth-child(-n+8) {
+		display: block;
+	}
+}
+
+@media screen and (min-width: 1000px) and (min-height: 1000px) {
+	.records {
+		font-size: 1.7rem;
+	}
+
+	.records .data p:nth-child(-n+9) {
+		display: block;
+	}
 }

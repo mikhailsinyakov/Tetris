@@ -49,8 +49,10 @@ class App extends Component {
 
     return (
       <div className="app">
-        <Field state={state} isPlaying={this.state.gameSituation === 'playing'}/>
-        <Info gameSituation={this.state.gameSituation} togglePause={this.togglePause}/>
+				<div className="game">
+					<Field state={state} isPlaying={this.state.gameSituation === 'playing'}/>
+					<Info gameSituation={this.state.gameSituation} togglePause={this.togglePause}/>
+				</div>
         <Dialog state={state} startGame={this.startGame} />
       </div>
     );
