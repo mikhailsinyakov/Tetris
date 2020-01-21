@@ -89,7 +89,11 @@ class EventsHandler {
 				move: null,
 				toDown: false
       };
-    }
+		}
+		
+		shapeHasChanged() {
+			this.keyboardListener.stopEvent();
+		}
 
 }
 

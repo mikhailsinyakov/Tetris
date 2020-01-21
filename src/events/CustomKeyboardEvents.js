@@ -2,6 +2,7 @@ class CustomKeyboardEvents {
     constructor() {
 				this.keys = {};
 				this.listener = this.listener.bind(this);
+				this.runEvent = true;
     }
 
     listen() {
@@ -12,7 +13,11 @@ class CustomKeyboardEvents {
     stop() {
         document.body.removeEventListener('keydown', this.listener);
         document.body.removeEventListener('keyup', this.listener);
-    }
+		}
+		
+		stopEvent() {
+			this.runEvent = false;
+		}
 
     listener(e) {
 			e.preventDefault();
@@ -25,7 +30,9 @@ class CustomKeyboardEvents {
 									if (!once) {
 											const pressedTime = Date.now();
 											this.keys[keyCode].timer = setInterval(() => {
-													if (Date.now() - pressedTime > delay) this.keys[keyCode].fn();
+												if (this.runEvent && Date.now() - pressedTime > delay) {
+													this.keys[keyCode].fn();
+												}
 											}, 15);
 									}
 							}
@@ -38,6 +45,7 @@ class CustomKeyboardEvents {
 									this.keys[keyCode].timer = null;
 							}
 					}
+					if (!this.runEvent) this.runEvent = true;
 			}
     }
 

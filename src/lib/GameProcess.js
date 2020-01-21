@@ -138,6 +138,8 @@ class GameProcess {
 		const {activeShape, nextShape} = this.state;
 		if (activeShape.isInsideField()) {
 			store.dispatch(replaceShape(activeShape, nextShape));
+			this.eventsHandler.shapeHasChanged();
+			this.futureActions = [];
 			this.shapesCount++;
 			this.moveToCursor();
 			this.clearFullLines();
@@ -157,7 +159,6 @@ class GameProcess {
 	moveToCursor() {
 		if (this.cursor.x === null) return;
 
-		//console.log('moveToCursor')
 		let deltaX = this.getDeltaXBetweenShapeAndCursor();
 		let newDeltaX;
 		
@@ -172,7 +173,6 @@ class GameProcess {
 
 	getCloserToCursor() {
 		if (this.cursor.x === null) return;
-		//console.log('getCloserToCursor')
 		const deltaX = this.getDeltaXBetweenShapeAndCursor();
 		const distance = Math.abs(deltaX);
 		if (distance > 0) {
@@ -190,7 +190,6 @@ class GameProcess {
 		const shapeWidth = activeShape.size.width;
 		let x = shapeWidth > 2 ? this.cursor.x - 1 : this.cursor.x;
 		x = Math.min(Math.max(0, x), config.fieldSize.width - 1);
-		//console.log({shapeX: activeShape.pos.x, cursorX: this.cursor.x})
 		const currX = activeShape.pos.x;
 		return x - currX;
 	}
