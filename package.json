@@ -14,7 +14,8 @@
     "node": "10.16.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+		"prestart": "cp -f ./https/server.pem ./node_modules/webpack-dev-server/ssl",
+    "start": "HTTPS=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
