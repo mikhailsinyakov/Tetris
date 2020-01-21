@@ -18,8 +18,8 @@ class GameProcess {
 		this.isRunning = false;
 		this.animationPlaying = false;
 		this.updateTime = {
-			standart: 500 - this.state.info.level * 30,
-			accelerated: (500 - this.state.info.level * 30) / 10
+			standart: 370 - (this.state.info.level - 1) * 25,
+			accelerated: (370 - (this.state.info.level - 1) * 25) / 10
 		};
 		this.updateMode = 'standart';
 		this.futureActions = [];

@@ -15,8 +15,9 @@
 
 body {
   margin: 0;
-  font-family: 'Asap Condensed', -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+	font-family: 'Fira Sans', 'Asap Condensed', -apple-system, BlinkMacSystemFont, 
+		"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", 
+		"Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -29,6 +30,10 @@ button {
   box-shadow: 0 0 7px 0 black;
 	border-radius: 5px;
 	border: 0;
+	font-family: 'Fira Sans', 'Asap Condensed', -apple-system, BlinkMacSystemFont, 
+	"Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", 
+	"Droid Sans", "Helvetica Neue",
+	sans-serif;
 }
 
 button:hover {
