@@ -19,15 +19,18 @@ const connect = () => {
 
 const getRecords = async () => {
 	return new Promise((resolve, reject) => {
-		collection.find().sort({record: -1}).toArray((err, data) => {
-			if (err) reject(err);
-			else resolve(data);
-		});
+		collection.find({})
+			.project({_id: 0})
+			.sort({record: -1})
+			.toArray((err, data) => {
+				if (err) reject(err);
+				else resolve(data);
+			});
 	});
 };
 
 const handleNewRecord = async newRecord => {
-	const records = await getRecords(collection);
+	const records = await getRecords();
 
 	if (records.length < 10) collection.insertOne(newRecord);
 	else if (newRecord.record > records[9].record) {
