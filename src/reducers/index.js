@@ -8,6 +8,7 @@ import isOver from './isOver';
 import dialogName from './dialogName';
 import records from './records';
 import lastResult from './lastResult';
+import username from './username';
 
 export default combineReducers({
   filledCells,
@@ -18,5 +19,6 @@ export default combineReducers({
   isOver,
   dialogName,
   records,
-  lastResult
+	lastResult,
+	username
 });

@@ -7,6 +7,7 @@ const Menu = ({startGame}) => {
     return (
         <div className="menu">
             <button onClick={startGame}>Play</button>
+            <button onClick={() => store.dispatch(changeDialogName('login'))}>Login</button>
             <button onClick={() => store.dispatch(changeDialogName('records'))}>Records</button>
             <button onClick={() => store.dispatch(changeDialogName('controls'))}>Controls</button>
         </div>

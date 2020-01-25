@@ -6,7 +6,8 @@ import {
   CLEAR_LINE,
   REPLACE_SHAPE,
   UPDATE_SHAPE_SHADOW,
-  CHANGE_DIALOG_NAME
+	CHANGE_DIALOG_NAME,
+	CHANGE_USERNAME
 } from '../constants/actionTypes';
 import Shape from '../lib/Shape';
 
@@ -78,4 +79,13 @@ export const changeDialogName = dialogName => {
       dialogName
     }
   };
+};
+
+export const changeUsername = username => {
+	return {
+		type: CHANGE_USERNAME,
+		payload: {
+			username
+		}
+	};
 };
