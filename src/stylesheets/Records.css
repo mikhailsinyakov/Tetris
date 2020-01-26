@@ -67,6 +67,10 @@
 	color: #0d440d;
 }
 
+.records p:nth-child(-n+3) .username {
+	color: #0d440d;
+}
+
 @media screen and (min-width: 400px) and (min-height: 400px) {
 	.records {
 		width: 70%;

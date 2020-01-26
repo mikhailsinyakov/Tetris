@@ -16,7 +16,7 @@ class Login extends Component {
 	}
 
 	handleChange(e) {
-		const name = e.target.value.slice(0, 15);
+		const name = e.target.value.slice(0, 10);
 		this.setState({name});
 	}
 
@@ -50,7 +50,7 @@ class Login extends Component {
 				</div>
 				<form>
 					<input onChange={this.handleChange} value={this.state.name}/>
-					<div className="warning">At most 15 characters </div>
+					<div className="warning">At most 10 characters </div>
 					<button type="submit" onClick={this.handleSubmit} 
 						className={usernameUpdated ? 'disabled' : ''}>
 							{this.props.username ? 'Change' : 'Add'}

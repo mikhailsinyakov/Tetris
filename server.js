@@ -21,7 +21,10 @@ app.route('/api/records')
 	.get((req, res) => {
 		dbHandler.getRecords()
 			.then(records => res.status(200).json(records))
-			.catch(e => res.status(500).json({error: 'Error connecting to database'}));
+			.catch(e => res.status(500).json({
+				error: 'Error connecting to database', 
+				description: e.message
+			}));
 	}).post((req, res) => {
 		const contentType = req.get('Content-Type');
 		if (contentType != 'application/json') {
@@ -36,7 +39,10 @@ app.route('/api/records')
 		} 
 		dbHandler.handleNewRecord({username, record})
 			.then(() => res.status(204).end())
-			.catch(e => res.status(500).json({error: 'Error connecting to database'}));
+			.catch(e => res.status(500).json({
+				error: 'Error connecting to database', 
+				description: e.message
+			}));
 	});
 
 app.all('*', (req, res) => {

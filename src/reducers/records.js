@@ -1,13 +1,9 @@
-import { FINISH_GAME } from '../constants/actionTypes';
-import Records from '../lib/Records';
-const records = new Records();
+import { RECORDS_UPDATED } from '../constants/actionTypes';
 
-export default (state = records.get(), action) => {
+export default (state = [], action) => {
     switch (action.type) {
-        case FINISH_GAME:
-            const { result } = action.payload;
-            records.add(result);
-            return records.get();
+        case RECORDS_UPDATED:
+            return action.payload.records;
         default:
             return state;
     }

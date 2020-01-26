@@ -7,7 +7,8 @@ import {
   REPLACE_SHAPE,
   UPDATE_SHAPE_SHADOW,
 	CHANGE_DIALOG_NAME,
-	CHANGE_USERNAME
+	CHANGE_USERNAME,
+	RECORDS_UPDATED
 } from '../constants/actionTypes';
 import Shape from '../lib/Shape';
 
@@ -21,10 +22,11 @@ export const startGame = () => {
   };
 };
 
-export const finishGame = result => ({
+export const finishGame = (result, username) => ({
   type: FINISH_GAME,
   payload: {
-    result
+		result,
+		username
   }
 });
 
@@ -86,6 +88,15 @@ export const changeUsername = username => {
 		type: CHANGE_USERNAME,
 		payload: {
 			username
+		}
+	};
+};
+
+export const recordsUpdated = records => {
+	return {
+		type: RECORDS_UPDATED,
+		payload: {
+			records
 		}
 	};
 };

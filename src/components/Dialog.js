@@ -20,7 +20,7 @@ const Dialog = ({ state, startGame }) => {
                 return <Controls />;
             case 'game-result':
                 return (
-									<GameResult lastResult={lastResult} 
+									<GameResult lastResult={lastResult} username={username}
 															records={records} startGame={startGame} 
 								/>);
             default:

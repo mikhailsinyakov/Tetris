@@ -35,7 +35,7 @@ class App extends Component {
 			if (type === 'pause') this.setState({gameSituation: 'paused'});
 			if (type === 'finish') {
 				this.setState({gameSituation: 'not started'});
-        store.dispatch(changeDialogName('game-result'))
+        store.dispatch(changeDialogName('game-result'));
 			}
 		});
 	}

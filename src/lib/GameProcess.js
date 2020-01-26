@@ -1,4 +1,5 @@
 import EventsHandler from '../events/EventsHandler';
+import Records from './Records';
 import store from '../store';
 import config from '../config';
 import {
@@ -8,7 +9,8 @@ import {
   moveShape,
   clearLine,
   replaceShape,
-  updateShapeShadow
+	updateShapeShadow,
+	recordsUpdated
 } from '../actions';
 
 class GameProcess {
@@ -25,6 +27,8 @@ class GameProcess {
 		this.futureActions = [];
 		this.cursor = {x: null, outside: true, distance: 0};
 		this.shapesCount = 0;
+		this.records = new Records();
+		this.records.init().then(() => store.dispatch(recordsUpdated(this.records.get())));
 		this.update = this.update.bind(this);
 	}
 
@@ -69,7 +73,11 @@ class GameProcess {
 		this.animationPlaying = false;
 		this.isRunning = false;
 		this.eventsHandler.off();
-		this.listener({type: 'finish'});
+		this.records.add(Math.round(this.state.info.score), this.state.username)
+			.then(records => {
+				store.dispatch(recordsUpdated(records));
+				this.listener({type: 'finish'});
+			});
 	}
 
 	addAnimation() {
