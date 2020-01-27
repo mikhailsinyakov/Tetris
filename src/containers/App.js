@@ -32,6 +32,9 @@ class App extends Component {
   componentDidMount() {
     gameProcess.init();
     gameProcess.addListener(({ type }) => {
+			if (type === "start") {
+				store.dispatch(changeDialogName("none"));
+			}
       if (type === "start" || type === "resume")
         this.setState({ gameSituation: "playing" });
       if (type === "pause") this.setState({ gameSituation: "paused" });
