@@ -40,7 +40,11 @@ class MouseListener {
           this.moveTimer = null;
         }, 50);
       }
-    } else if (e.type === "click" && e.target.id !== "toggle-playing") {
+    } else if (
+			e.type === "click" && 
+			e.target.id !== "toggle-playing" && 
+			(!e.target.href || e.target.href.baseVal !== "sprite/icons.svg#finish")
+		) {
       this.callback({ type: "click" });
     } else if (e.type === "mousedown") {
       // If it is right button

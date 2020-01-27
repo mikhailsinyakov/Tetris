@@ -9,10 +9,29 @@
 }
 
 .game {
+	position: relative;
   display: flex;
   justify-content: space-between;
   width: 100vmin;
   height: 100vmin;
+}
+
+#finish-button {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -75px;
+	margin-top: -75px;
+	cursor: pointer;
+}
+
+#finish-button .icon {
+	width: 150px;
+	height: 150px;
+}
+
+#finish-button .icon:hover {
+  fill: #b31b1b;
 }
 
 @media screen and (min-width: 400px) {
@@ -27,6 +46,16 @@
     width: 80vmin;
     height: 80vmin;
   }
+
+	#finish-button {
+		margin-left: -100px;
+		margin-top: -100px;
+	}
+
+	#finish-button .icon {
+		width: 200px;
+		height: 200px;
+	}
 }
 
 @media screen and (min-width: 600px) {
@@ -34,4 +63,28 @@
     width: 70vmin;
     height: 70vmin;
   }
+}
+
+@media screen and (min-width: 700px) {
+	#finish-button {
+		margin-left: -120px;
+		margin-top: -120px;
+	}
+
+	#finish-button .icon {
+		width: 240px;
+		height: 240px;
+	}
+}
+
+@media screen and (min-width: 1000px) {
+	#finish-button {
+		margin-left: -140px;
+		margin-top: -140px;
+	}
+
+	#finish-button .icon {
+		width: 280px;
+		height: 280px;
+	}
 }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Field from "../components/Field";
 import Info from "./Info";
 import Dialog from "../components/Dialog";
+import Icon from '../components/Icon';
 import "../stylesheets/App.css";
 import GameProcess from "../lib/GameProcess";
 import store from "../store";
@@ -48,7 +49,8 @@ class App extends Component {
   }
 
   render() {
-    const state = store.getState();
+		const state = store.getState();
+		const { gameSituation } = this.state;
 
     return (
       <div
@@ -65,12 +67,16 @@ class App extends Component {
         >
           <Field
             state={state}
-            isPlaying={this.state.gameSituation === "playing"}
+            isPlaying={gameSituation === "playing"}
           />
           <Info
-            gameSituation={this.state.gameSituation}
+            gameSituation={gameSituation}
             togglePause={this.togglePause}
           />
+					{gameSituation === 'paused' && 
+						<span id="finish-button" onClick={() => gameProcess.finish()}>
+							<Icon type="finish" color="#e82b2b" />
+						</span>}
         </div>
         <Dialog state={state} startGame={this.startGame} />
       </div>
