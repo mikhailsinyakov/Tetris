@@ -5,7 +5,7 @@ import Dialog from "../components/Dialog";
 import "../stylesheets/App.css";
 import GameProcess from "../lib/GameProcess";
 import store from "../store";
-import { changeDialogName } from "../actions";
+import { changeDialogName, changeUsername } from "../actions";
 
 const gameProcess = new GameProcess();
 
@@ -39,6 +39,8 @@ class App extends Component {
         store.dispatch(changeDialogName("game-result"));
       }
     });
+    const username = localStorage.getItem("username");
+    if (username) store.dispatch(changeUsername(username));
   }
 
   componentWillUnmount() {

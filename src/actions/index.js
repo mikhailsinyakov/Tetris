@@ -12,15 +12,13 @@ import {
 } from "../constants/actionTypes";
 import Shape from "../lib/Shape";
 
-export const startGame = () => {
-  return {
-    type: START_GAME,
-    payload: {
-      activeShape: new Shape(),
-      nextShape: new Shape()
-    }
-  };
-};
+export const startGame = () => ({
+  type: START_GAME,
+  payload: {
+    activeShape: new Shape(),
+    nextShape: new Shape()
+  }
+});
 
 export const finishGame = (result, username) => ({
   type: FINISH_GAME,
@@ -53,50 +51,39 @@ export const clearLine = number => ({
   }
 });
 
-export const replaceShape = (activeShape, nextShape) => {
-  return {
-    type: REPLACE_SHAPE,
-    payload: {
-      prevShape: activeShape,
-      activeShape: nextShape,
-      nextShape: new Shape()
-    }
-  };
-};
+export const replaceShape = (activeShape, nextShape) => ({
+  type: REPLACE_SHAPE,
+  payload: {
+    prevShape: activeShape,
+    activeShape: nextShape,
+    nextShape: new Shape()
+  }
+});
 
-export const updateShapeShadow = (activeShape, filledCells) => {
-  return {
-    type: UPDATE_SHAPE_SHADOW,
-    payload: {
-      activeShape,
-      filledCells
-    }
-  };
-};
+export const updateShapeShadow = (activeShape, filledCells) => ({
+  type: UPDATE_SHAPE_SHADOW,
+  payload: {
+    newShadow: activeShape.getShadow(filledCells)
+  }
+});
 
-export const changeDialogName = dialogName => {
-  return {
-    type: CHANGE_DIALOG_NAME,
-    payload: {
-      dialogName
-    }
-  };
-};
+export const changeDialogName = dialogName => ({
+  type: CHANGE_DIALOG_NAME,
+  payload: {
+    dialogName
+  }
+});
 
-export const changeUsername = username => {
-  return {
-    type: CHANGE_USERNAME,
-    payload: {
-      username
-    }
-  };
-};
+export const changeUsername = newUsername => ({
+  type: CHANGE_USERNAME,
+  payload: {
+    newUsername
+  }
+});
 
-export const recordsUpdated = records => {
-  return {
-    type: RECORDS_UPDATED,
-    payload: {
-      records
-    }
-  };
-};
+export const recordsUpdated = records => ({
+  type: RECORDS_UPDATED,
+  payload: {
+    records
+  }
+});

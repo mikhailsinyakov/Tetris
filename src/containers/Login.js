@@ -24,8 +24,10 @@ class Login extends Component {
     e.preventDefault();
     const usernameUpdated = (this.props.username || "") === this.state.name;
     if (!usernameUpdated) {
-      const name = this.state.name || null;
+      const name = this.state.name;
       store.dispatch(changeUsername(name));
+      if (name) localStorage.setItem("username", name);
+      else localStorage.removeItem("username");
     }
   }
 
