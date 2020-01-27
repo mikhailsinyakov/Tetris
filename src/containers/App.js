@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Field from "../components/Field";
 import Info from "./Info";
 import Dialog from "../components/Dialog";
-import Icon from '../components/Icon';
+import Footer from "../components/Footer";
+import Icon from "../components/Icon";
 import "../stylesheets/App.css";
 import GameProcess from "../lib/GameProcess";
 import store from "../store";
@@ -32,9 +33,9 @@ class App extends Component {
   componentDidMount() {
     gameProcess.init();
     gameProcess.addListener(({ type }) => {
-			if (type === "start") {
-				store.dispatch(changeDialogName("none"));
-			}
+      if (type === "start") {
+        store.dispatch(changeDialogName("none"));
+      }
       if (type === "start" || type === "resume")
         this.setState({ gameSituation: "playing" });
       if (type === "pause") this.setState({ gameSituation: "paused" });
@@ -52,8 +53,8 @@ class App extends Component {
   }
 
   render() {
-		const state = store.getState();
-		const { gameSituation } = this.state;
+    const state = store.getState();
+    const { gameSituation } = this.state;
 
     return (
       <div
@@ -68,20 +69,16 @@ class App extends Component {
           className="game"
           style={{ filter: state.isOver ? "brightness(0.7)" : "none" }}
         >
-          <Field
-            state={state}
-            isPlaying={gameSituation === "playing"}
-          />
-          <Info
-            gameSituation={gameSituation}
-            togglePause={this.togglePause}
-          />
-					{gameSituation === 'paused' && 
-						<span id="finish-button" onClick={() => gameProcess.finish()}>
-							<Icon type="finish" color="#e82b2b" />
-						</span>}
+          <Field state={state} isPlaying={gameSituation === "playing"} />
+          <Info gameSituation={gameSituation} togglePause={this.togglePause} />
+          {gameSituation === "paused" && (
+            <span id="finish-button" onClick={() => gameProcess.finish()}>
+              <Icon type="finish" color="#e82b2b" />
+            </span>
+          )}
         </div>
         <Dialog state={state} startGame={this.startGame} />
+        <Footer />
       </div>
     );
   }
