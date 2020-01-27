@@ -27,7 +27,8 @@ class GameProcess {
     this.futureActions = [];
     this.cursor = { x: null, outside: true, distance: 0 };
     this.shapesCount = 0;
-    this.records = new Records();
+		this.records = new Records();
+		store.dispatch(recordsUpdated(this.records.get()));
     this.records
       .init()
       .then(() => store.dispatch(recordsUpdated(this.records.get())));
