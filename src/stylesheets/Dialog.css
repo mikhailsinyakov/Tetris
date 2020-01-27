@@ -1,11 +1,11 @@
 .dialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    background: transparent;
-    width: 100vmin;
-    height: 100vmin;
-    border-radius: 20px;
-		margin: -50vmin 0 0 -50vmin;
-		filter: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: transparent;
+  width: 100vmin;
+  height: 100vmin;
+  border-radius: 20px;
+  margin: -50vmin 0 0 -50vmin;
+  filter: none;
 }

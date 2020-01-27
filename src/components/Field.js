@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import config from '../config';
-import '../stylesheets/Field.css';
+import React, { Component } from "react";
+import config from "../config";
+import "../stylesheets/Field.css";
 
 class Field extends Component {
   constructor(props) {
@@ -10,7 +10,7 @@ class Field extends Component {
   }
 
   getCanvasContext() {
-    this.ctx = this.canvas.current.getContext('2d');
+    this.ctx = this.canvas.current.getContext("2d");
   }
 
   clearCanvas() {
@@ -18,17 +18,19 @@ class Field extends Component {
     this.ctx.clearRect(0, 0, width, height);
   }
 
-  drawCell({type, x, y, color, cssVar}) {
+  drawCell({ type, x, y, color, cssVar }) {
     const { scale: cellSide } = config;
     const borderSide = cellSide / 8;
     const innerCellSide = cellSide - 2 * borderSide;
     x = x * cellSide;
     y = y * cellSide;
 
-		if (!color && cssVar) {
-			color = getComputedStyle(document.documentElement).getPropertyValue(cssVar);
-		}
-		
+    if (!color && cssVar) {
+      color = getComputedStyle(document.documentElement).getPropertyValue(
+        cssVar
+      );
+    }
+
     // Draw main part of the cell
     this.ctx.fillStyle = color;
     this.ctx.fillRect(
@@ -39,20 +41,21 @@ class Field extends Component {
     );
 
     const cellBorderColors = {
-      top: '#b3b3fb',
-      left: '#0000d8',
-      right: '#0000d8',
-      bottom: '#000078'
+      top: "#b3b3fb",
+      left: "#0000d8",
+      right: "#0000d8",
+      bottom: "#000078"
     };
 
     const shadowBorderColors = {
-      top: '#7B794A',
-      left: '#76732B',
-      right: '#76732B',
-      bottom: '#5F5C07'
+      top: "#7B794A",
+      left: "#76732B",
+      right: "#76732B",
+      bottom: "#5F5C07"
     };
 
-    const borderColors = type === 'shapeShadow' ? shadowBorderColors : cellBorderColors;
+    const borderColors =
+      type === "shapeShadow" ? shadowBorderColors : cellBorderColors;
 
     const borderCoords = {
       top: [
@@ -63,7 +66,7 @@ class Field extends Component {
       ],
       left: [
         { x, y },
-        { x: x + borderSide, y: y + borderSide},
+        { x: x + borderSide, y: y + borderSide },
         { x: x + borderSide, y: y + cellSide - borderSide },
         { x, y: y + cellSide }
       ],
@@ -94,27 +97,36 @@ class Field extends Component {
     for (const border in borderCoords) {
       drawBorder(borderCoords[border], borderColors[border]);
     }
-
   }
 
-  drawCells({type, cells, color, cssVar}) {
-    cells.forEach(cell => this.drawCell({
-			type, 
-			x: cell.x, 
-			y: cell.y, 
-			color: cssVar ? color : color ? color : cell.color,
-			cssVar
-		}));
+  drawCells({ type, cells, color, cssVar }) {
+    cells.forEach(cell =>
+      this.drawCell({
+        type,
+        x: cell.x,
+        y: cell.y,
+        color: cssVar ? color : color ? color : cell.color,
+        cssVar
+      })
+    );
   }
 
   redrawCanvas() {
     const { filledCells, activeShape, shapeShadow } = this.props.state;
     this.clearCanvas();
-    this.drawCells({type: 'filledCells', cells: filledCells});
+    this.drawCells({ type: "filledCells", cells: filledCells });
     if (shapeShadow) {
-      this.drawCells({type: 'shapeShadow', cells: shapeShadow, cssVar: '--primary-color'});
+      this.drawCells({
+        type: "shapeShadow",
+        cells: shapeShadow,
+        cssVar: "--primary-color"
+      });
     }
-    this.drawCells({type: 'activeShape', cells: activeShape.cells, color: activeShape.color});
+    this.drawCells({
+      type: "activeShape",
+      cells: activeShape.cells,
+      color: activeShape.color
+    });
   }
 
   componentDidMount() {
@@ -126,15 +138,17 @@ class Field extends Component {
   }
 
   render() {
-    const { fieldSize: { width, height }, scale } = config;
+    const {
+      fieldSize: { width, height },
+      scale
+    } = config;
     return (
       <canvas
         ref={this.canvas}
         className="field"
         width={width * scale}
         height={height * scale}
-      >
-      </canvas>
+      ></canvas>
     );
   }
 }

@@ -1,43 +1,43 @@
 .menu {
-    display: flex;
-    height: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu button {
-		--menu-button-font-size: 1rem;
-    font-size: var(--menu-button-font-size);
-    margin-top: var(--menu-button-font-size);
-    width: calc(8 * var(--menu-button-font-size));
-		border: 1px solid var(--primary-color);
+  --menu-button-font-size: 1rem;
+  font-size: var(--menu-button-font-size);
+  margin-top: var(--menu-button-font-size);
+  width: calc(8 * var(--menu-button-font-size));
+  border: 1px solid var(--primary-color);
 }
 
 .menu button:focus {
-    outline: none;
+  outline: none;
 }
 
 @media screen and (min-width: 400px) and (min-height: 400px) {
-	.menu button {
-		--menu-button-font-size: 1.2rem;
-	}
+  .menu button {
+    --menu-button-font-size: 1.2rem;
+  }
 }
 
 @media screen and (min-width: 500px) and (min-height: 500px) {
-	.menu button {
-		--menu-button-font-size: 1.5rem;
-	}
+  .menu button {
+    --menu-button-font-size: 1.5rem;
+  }
 }
 
 @media screen and (min-width: 700px) and (min-height: 700px) {
-	.menu button {
-		--menu-button-font-size: 2rem;
-	}
+  .menu button {
+    --menu-button-font-size: 2rem;
+  }
 }
 
 @media screen and (min-width: 900px) and (min-height: 900px) {
-	.menu button {
-		--menu-button-font-size: 2.5rem;
-	}
+  .menu button {
+    --menu-button-font-size: 2.5rem;
+  }
 }

@@ -1,4 +1,4 @@
-import { START_GAME, REPLACE_SHAPE } from '../constants/actionTypes';
+import { START_GAME, REPLACE_SHAPE } from "../constants/actionTypes";
 
 export default (state = null, action) => {
   switch (action.type) {

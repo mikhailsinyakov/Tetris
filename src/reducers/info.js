@@ -1,4 +1,4 @@
-import { CLEAR_LINE, START_GAME, MOVE_SHAPE } from '../constants/actionTypes';
+import { CLEAR_LINE, START_GAME, MOVE_SHAPE } from "../constants/actionTypes";
 
 const initialState = {
   score: 0,
@@ -9,13 +9,13 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case MOVE_SHAPE:
-      if (action.payload.direction === 'down') {
+      if (action.payload.direction === "down") {
         return {
           ...state,
           score: state.score + state.level / 10
         };
       } else return state;
-      
+
     case CLEAR_LINE:
       const maxLevel = 9;
       const level = Math.floor((state.lines + 1) / 5) + 1;

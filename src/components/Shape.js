@@ -1,10 +1,8 @@
-import React from 'react';
+import React from "react";
 
-const Shape = ({nextShape}) => {
+const Shape = ({ nextShape }) => {
   if (!nextShape) {
-    return (
-      <svg width={50} height={50}></svg>
-    );
+    return <svg width={50} height={50}></svg>;
   }
 
   const { color, initCells: coords } = nextShape;
@@ -20,18 +18,16 @@ const Shape = ({nextShape}) => {
 
   return (
     <svg width={50} height={50} viewBox="0 0 50 50">
-      {
-        realCoords.map((coord, i) =>
-          <rect
-            key={i}
-            x={coord.x}
-            y={coord.y}
-            width={12.5}
-            height={12.5}
-            style={{fill: color, stroke: 'var(--primary-color'}}
-          />
-        )
-      }
+      {realCoords.map((coord, i) => (
+        <rect
+          key={i}
+          x={coord.x}
+          y={coord.y}
+          width={12.5}
+          height={12.5}
+          style={{ fill: color, stroke: "var(--primary-color" }}
+        />
+      ))}
     </svg>
   );
 };

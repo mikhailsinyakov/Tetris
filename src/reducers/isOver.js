@@ -1,4 +1,4 @@
-import { START_GAME, RECORDS_UPDATED } from '../constants/actionTypes';
+import { START_GAME, RECORDS_UPDATED } from "../constants/actionTypes";
 
 export default (state = true, action) => {
   switch (action.type) {

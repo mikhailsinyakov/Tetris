@@ -1,27 +1,27 @@
 .indicator {
-	position: relative;
-	background-color: var(--third-color);
-	border: 1px solid var(--primary-color);
-	border-radius: 1rem;
-	box-shadow: 0 0 5px 0px #070735;
-	padding: 0.5rem;
+  position: relative;
+  background-color: var(--third-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 1rem;
+  box-shadow: 0 0 5px 0px #070735;
+  padding: 0.5rem;
 }
 
 .indicator .name {
-	border-bottom: 1px solid #563434;
+  border-bottom: 1px solid #563434;
 }
 
 .indicator .value {
-	margin-top: 0.5rem;
-	font-size: 2rem;
+  margin-top: 0.5rem;
+  font-size: 2rem;
 }
 
 .indicator .component {
-	margin-top: 1rem;
+  margin-top: 1rem;
 }
 
 @media screen and (min-width: 700px) and (min-height: 700px) {
   .indicator {
-		padding: 1rem;
-	}
+    padding: 1rem;
+  }
 }

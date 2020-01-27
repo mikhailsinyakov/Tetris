@@ -6,11 +6,11 @@ import {
   CLEAR_LINE,
   REPLACE_SHAPE,
   UPDATE_SHAPE_SHADOW,
-	CHANGE_DIALOG_NAME,
-	CHANGE_USERNAME,
-	RECORDS_UPDATED
-} from '../constants/actionTypes';
-import Shape from '../lib/Shape';
+  CHANGE_DIALOG_NAME,
+  CHANGE_USERNAME,
+  RECORDS_UPDATED
+} from "../constants/actionTypes";
+import Shape from "../lib/Shape";
 
 export const startGame = () => {
   return {
@@ -25,16 +25,16 @@ export const startGame = () => {
 export const finishGame = (result, username) => ({
   type: FINISH_GAME,
   payload: {
-		result,
-		username
+    result,
+    username
   }
 });
 
 export const rotateShape = (filledCells, clockwise) => ({
-	type: ROTATE_SHAPE,
+  type: ROTATE_SHAPE,
   payload: {
-		filledCells,
-		clockwise
+    filledCells,
+    clockwise
   }
 });
 
@@ -84,19 +84,19 @@ export const changeDialogName = dialogName => {
 };
 
 export const changeUsername = username => {
-	return {
-		type: CHANGE_USERNAME,
-		payload: {
-			username
-		}
-	};
+  return {
+    type: CHANGE_USERNAME,
+    payload: {
+      username
+    }
+  };
 };
 
 export const recordsUpdated = records => {
-	return {
-		type: RECORDS_UPDATED,
-		payload: {
-			records
-		}
-	};
+  return {
+    type: RECORDS_UPDATED,
+    payload: {
+      records
+    }
+  };
 };
