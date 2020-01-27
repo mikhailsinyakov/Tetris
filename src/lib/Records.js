@@ -20,8 +20,7 @@ class Records {
     this.records = { personal, overall };
   }
 
-  async updateOverallRecords(attempt = 1) {
-    if (attempt === 4) return [];
+  async updateOverallRecords() {
     try {
       const res = await fetch("/api/records");
       const data = await res.json();
@@ -33,8 +32,7 @@ class Records {
       }
       return [];
     } catch (e) {
-      console.log(e);
-      return await this.updateOverallRecords(attempt + 1);
+      return [];
     }
   }
 
