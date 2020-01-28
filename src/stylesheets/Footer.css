@@ -20,6 +20,7 @@ footer .choose-language {
   background: transparent;
   box-shadow: none;
   border: 0;
+  font-size: 1em;
 }
 
 @media screen and (min-width: 400px) {
