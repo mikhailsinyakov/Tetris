@@ -4,17 +4,19 @@ import { changeDialogName } from "../actions";
 import "../stylesheets/Menu.css";
 
 const Menu = ({ startGame }) => {
+  const lang = document.documentElement.lang;
+
   return (
     <div className="menu">
-      <button onClick={startGame}>Play</button>
+      <button onClick={startGame}>{lang === "en" ? "Play" : "Играть"}</button>
       <button onClick={() => store.dispatch(changeDialogName("login"))}>
-        Login
+        {lang === "en" ? "Login" : "Изменить ник"}
       </button>
       <button onClick={() => store.dispatch(changeDialogName("records"))}>
-        Records
+        {lang === "en" ? "Records" : "Рекорды"}
       </button>
       <button onClick={() => store.dispatch(changeDialogName("controls"))}>
-        Controls
+        {lang === "en" ? "Controls" : "Управление"}
       </button>
     </div>
   );

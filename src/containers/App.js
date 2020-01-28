@@ -30,7 +30,7 @@ class App extends Component {
     gameProcess.start();
   }
 
-  componentDidMount() {
+  initGameProcess() {
     gameProcess.init();
     gameProcess.addListener(({ type }) => {
       if (type === "start") {
@@ -44,8 +44,25 @@ class App extends Component {
         store.dispatch(changeDialogName("game-result"));
       }
     });
+  }
+
+  getUpdateUsername() {
     const username = localStorage.getItem("username");
     if (username) store.dispatch(changeUsername(username));
+  }
+
+  defineSetLanguage() {
+    const langs = window.navigator.language;
+    if (langs) {
+      const lang = langs.split(";")[0];
+      if (/[rR]u/.test(lang)) document.documentElement.lang = "ru";
+    }
+  }
+
+  componentDidMount() {
+    this.initGameProcess();
+    this.getUpdateUsername();
+    this.defineSetLanguage();
   }
 
   componentWillUnmount() {

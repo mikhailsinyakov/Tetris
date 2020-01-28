@@ -17,7 +17,29 @@ class Records extends Component {
     if (this.state.part !== part) this.setState({ part });
   }
 
+  addEnding(num) {
+    const wordRoot = "очк";
+    const numStr = num.toString();
+    const lastDigit = numStr[numStr.length - 1];
+    const digitBeforeLast = numStr[numStr.length - 2];
+    let ending;
+    if (lastDigit === "1") {
+      if (digitBeforeLast === "1") ending = "ов";
+      else ending = "о";
+    } else if (lastDigit === "2" || lastDigit === "3" || lastDigit === "4") {
+      if (digitBeforeLast === "1") ending = "ов";
+      else ending = "а";
+    } else ending = "ов";
+
+    return `${num} ${wordRoot}${ending}`;
+  }
+
   render() {
+    const lang = document.documentElement.lang;
+    const noRecordsMsg = {
+      en: "There are no records yet",
+      ru: "Еще нет рекордов"
+    };
     const records = this.props.records[this.state.part]
       .filter((_, i) => i < 10)
       .map((record, i) => (
@@ -26,7 +48,11 @@ class Records extends Component {
           {record.username && (
             <span className="username">{record.username.slice(0, 10)}</span>
           )}
-          <span className="points">{record.points} points</span>
+          <span className="points">
+            {lang === "en"
+              ? `${record.points} points`
+              : this.addEnding(record.points)}
+          </span>
         </p>
       ));
 
@@ -46,7 +72,7 @@ class Records extends Component {
               (this.state.part === "personal" ? "active" : "")
             }
           >
-            Personal
+            {lang === "en" ? "Personal" : "Личные"}
           </button>
           <button
             onClick={() => this.changePart("overall")}
@@ -55,11 +81,11 @@ class Records extends Component {
               (this.state.part === "overall" ? "active" : "")
             }
           >
-            Overall
+            {lang === "en" ? "Overall" : "Общие"}
           </button>
         </div>
         <div className="data">
-          {records.length ? records : <p>There are no records yet</p>}
+          {records.length ? records : <p>{noRecordsMsg}</p>}
         </div>
       </div>
     );

@@ -12,26 +12,71 @@ class Controls extends Component {
     };
     this.instructions = {
       keyboard: [
-        { iconType: "moveLeft", action: "press a ← key" },
-        { iconType: "moveRight", action: "press a → key" },
-        { iconType: "rotate", action: "press a ↑ key" },
-        { iconType: "speedUp", action: "press a ↓ key" },
-        { iconTypes: ["pause", "play"], action: 'press a "Space" key' }
+        {
+          iconType: "moveLeft",
+          action: { en: "press a ← key", ru: "клавиша ←" }
+        },
+        {
+          iconType: "moveRight",
+          action: { en: "press a → key", ru: "клавиша →" }
+        },
+        {
+          iconType: "rotate",
+          action: { en: "press a ↑ key", ru: "клавиша ↑" }
+        },
+        {
+          iconType: "speedUp",
+          action: { en: "press a ↓ key", ru: "клавиша ↓" }
+        },
+        {
+          iconTypes: ["pause", "play"],
+          action: { en: 'press a "Space" key', ru: "клавиша пробел" }
+        }
       ],
       mouse: [
-        { iconType: "move", action: "move the mouse within the field" },
-        { iconType: "rotate", action: "turn the mouse wheel" },
-        { iconType: "speedUp", action: "right click" },
-        { iconType: "moveToBottom", action: "left click" }
-      ],
-      touchscreen: [
-        { iconType: "moveLeft", action: "swipe left" },
-        { iconType: "moveRight", action: "swipe right" },
-        { iconType: "rotate", action: "tap the screen" },
-        { iconType: "speedUp", action: "swipe down" },
+        {
+          iconType: "move",
+          action: {
+            en: "move the mouse within the field",
+            ru: "проведите мышью внутри игрового поля"
+          }
+        },
+        {
+          iconType: "rotate",
+          action: { en: "turn the mouse wheel", ru: "поверните колесико мыши" }
+        },
+        {
+          iconType: "speedUp",
+          action: { en: "right click", ru: "правая кнопка мыши" }
+        },
         {
           iconType: "moveToBottom",
-          action: "swipe down, ending below the field"
+          action: { en: "left click", ru: "левая кнопка мыши" }
+        }
+      ],
+      touchscreen: [
+        {
+          iconType: "moveLeft",
+          action: { en: "swipe left", ru: "свайп влево" }
+        },
+        {
+          iconType: "moveRight",
+          action: { en: "swipe right", ru: "свайп вправо" }
+        },
+        {
+          iconType: "rotate",
+          action: { en: "tap the screen", ru: "коснитесь экрана" }
+        },
+        {
+          iconType: "speedUp",
+          action: { en: "swipe down", ru: "свайп вниз" }
+        },
+        {
+          iconType: "moveToBottom",
+          action: {
+            en: "swipe down, ending below the field",
+            ru: "свайп вниз ниже поля"
+          }
         }
       ]
     };
@@ -44,8 +89,13 @@ class Controls extends Component {
 
   render() {
     const { tab } = this.state;
-    const tabNames = ["keyboard", "mouse", "touchscreen"];
+    const tabNames = [
+      { en: "keyboard", ru: "клавиатура" },
+      { en: "mouse", ru: "мышь" },
+      { en: "touchscreen", ru: "экран" }
+    ];
     const instructions = this.instructions[tab];
+    const lang = document.documentElement.lang;
 
     return (
       <div className="controls">
@@ -59,12 +109,12 @@ class Controls extends Component {
           {tabNames.map(tabName => (
             <button
               className={
-                "choose-tab-button " + (tab === tabName ? "active" : "")
+                "choose-tab-button " + (tab === tabName.en ? "active" : "")
               }
               key={tabName}
-              onClick={() => this.switchTab(tabName)}
+              onClick={() => this.switchTab(tabName.en)}
             >
-              {tabName[0].toUpperCase() + tabName.slice(1)}
+              {tabName[lang][0].toUpperCase() + tabName[lang].slice(1)}
             </button>
           ))}
         </div>
@@ -81,7 +131,7 @@ class Controls extends Component {
                 )}
               </div>
               <div className="action">
-                {action[0].toUpperCase() + action.slice(1)}
+                {action[lang][0].toUpperCase() + action[lang].slice(1)}
               </div>
             </div>
           ))}
