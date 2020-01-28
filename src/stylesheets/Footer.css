@@ -11,8 +11,15 @@ footer a {
   border-right: 1px solid;
 }
 
-footer a:last-child {
-  border-right: 0;
+footer .choose-language {
+  text-decoration: none;
+  padding: 0 0.5rem;
+  border-right: 1px solid;
+  color: rgb(0, 0, 238);
+  cursor: pointer;
+  background: transparent;
+  box-shadow: none;
+  border: 0;
 }
 
 @media screen and (min-width: 400px) {

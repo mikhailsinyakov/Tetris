@@ -19,6 +19,7 @@ class App extends Component {
     };
     this.togglePause = this.togglePause.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.changeLanguage = this.changeLanguage.bind(this);
   }
 
   togglePause() {
@@ -52,11 +53,22 @@ class App extends Component {
   }
 
   defineSetLanguage() {
-    const langs = window.navigator.language;
-    if (langs) {
-      const lang = langs.split(";")[0];
-      if (/[rR]u/.test(lang)) document.documentElement.lang = "ru";
+    let language = localStorage.getItem("language");
+    if (!language) {
+      const langs = window.navigator.language;
+      if (langs) {
+        const lang = langs.split(";")[0];
+        if (/[rR]u/.test(lang)) language = "ru";
+        else language = "en";
+      } else language = "en";
     }
+    document.documentElement.lang = language;
+  }
+
+  changeLanguage(language) {
+    document.documentElement.lang = language;
+    localStorage.setItem("language", language);
+    this.forceUpdate();
   }
 
   componentDidMount() {
@@ -95,7 +107,9 @@ class App extends Component {
           )}
         </div>
         <Dialog state={state} startGame={this.startGame} />
-        <Footer />
+        {gameSituation === "not started" && (
+          <Footer changeLanguage={this.changeLanguage} />
+        )}
       </div>
     );
   }
