@@ -19,7 +19,7 @@ const Info = ({ gameSituation, togglePause }) => {
         {buttonName}
       </button>
       <Indicator
-        name={lang === "en" ? "next" : "следующая"}
+        name={lang === "en" ? "next" : "новая фигура"}
         component={<Shape nextShape={nextShape} />}
       />
       <Indicator
