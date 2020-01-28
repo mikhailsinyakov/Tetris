@@ -1,16 +1,4 @@
 .records {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  height: 90%;
-  margin: 5% auto;
-  padding-top: 0.5rem;
-  padding-bottom: 1rem;
-  background: linear-gradient(
-    rgba(207, 218, 212, 0.95) 15%,
-    rgba(119, 113, 113, 0.95) 15%
-  );
-  border-radius: 1rem;
   font-size: 1rem;
 }
 
@@ -75,18 +63,12 @@
 
 @media screen and (min-width: 400px) and (min-height: 400px) {
   .records {
-    width: 70%;
-    height: 80%;
-    margin: 10% auto;
     font-size: 1.1rem;
   }
 }
 
 @media screen and (min-width: 500px) and (min-height: 500px) {
   .records {
-    width: 60%;
-    height: 70%;
-    margin: 15% auto;
     font-size: 1.2rem;
   }
 
@@ -97,9 +79,6 @@
 
 @media screen and (min-width: 600px) and (min-height: 600px) {
   .records {
-    width: 50%;
-    height: 60%;
-    margin: 20% auto;
     font-size: 1.3rem;
   }
 }

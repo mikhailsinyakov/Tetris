@@ -53,7 +53,7 @@ class Login extends Component {
     const message = { en: "All is up to date", ru: "Изменения сохранены" };
 
     return (
-      <div className="login">
+      <div className="login component">
         <div className="header">
           <span
             onClick={() => store.dispatch(changeDialogName("menu"))}

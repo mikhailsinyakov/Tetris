@@ -50,7 +50,7 @@ const GameResult = ({ lastResult, records, startGame, username }) => {
   const buttonMsg = lang === "en" ? "Play Again" : "Играть Снова";
 
   return (
-    <div className="game-result">
+    <div className="game-result component">
       <div className="header">
         <span
           onClick={() => store.dispatch(changeDialogName("menu"))}

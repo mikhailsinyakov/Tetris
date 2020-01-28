@@ -98,7 +98,7 @@ class Controls extends Component {
     const lang = document.documentElement.lang;
 
     return (
-      <div className="controls">
+      <div className="controls component">
         <div className="buttons">
           <span
             onClick={() => store.dispatch(changeDialogName("menu"))}
@@ -111,7 +111,7 @@ class Controls extends Component {
               className={
                 "choose-tab-button " + (tab === tabName.en ? "active" : "")
               }
-              key={tabName}
+              key={tabName.en}
               onClick={() => this.switchTab(tabName.en)}
             >
               {tabName[lang][0].toUpperCase() + tabName[lang].slice(1)}

@@ -57,7 +57,7 @@ class Records extends Component {
       ));
 
     return (
-      <div className="records">
+      <div className="records component">
         <div className="buttons">
           <span
             onClick={() => store.dispatch(changeDialogName("menu"))}
