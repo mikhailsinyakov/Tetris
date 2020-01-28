@@ -27,8 +27,8 @@ class GameProcess {
     this.futureActions = [];
     this.cursor = { x: null, outside: true, distance: 0 };
     this.shapesCount = 0;
-		this.records = new Records();
-		store.dispatch(recordsUpdated(this.records.get()));
+    this.records = new Records();
+    store.dispatch(recordsUpdated(this.records.get()));
     this.records
       .init()
       .then(() => store.dispatch(recordsUpdated(this.records.get())));
@@ -158,6 +158,7 @@ class GameProcess {
       this.clearFullLines();
       this.updateShadow();
       this.updateMode = "standart";
+      this.changeUpdateTime();
     } else this.finish();
   }
 
@@ -250,6 +251,13 @@ class GameProcess {
       else if (!cellsOnLine) break;
       else i--;
     }
+  }
+
+  changeUpdateTime() {
+    this.updateTime = {
+      standart: 370 - (this.state.info.level - 1) * 25,
+      accelerated: (370 - (this.state.info.level - 1) * 25) / 10
+    };
   }
 }
 

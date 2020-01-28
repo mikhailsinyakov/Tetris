@@ -18,11 +18,13 @@ export default (state = initialState, action) => {
 
     case CLEAR_LINE:
       const maxLevel = 9;
-      const level = Math.floor((state.lines + 1) / 5) + 1;
+      const lines = state.lines + 1;
+      const level =
+        lines % 3 === 0 ? Math.min(state.level + 1, maxLevel) : state.level;
       return {
         score: state.score + state.level * 100,
-        lines: state.lines + 1,
-        level: level > maxLevel ? maxLevel : level
+        lines,
+        level
       };
     case START_GAME:
       return initialState;
